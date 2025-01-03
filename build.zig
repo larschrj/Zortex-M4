@@ -22,7 +22,7 @@ pub fn build(b: *std.Build) void {
         .name = "firmware.elf",
         .target = target,
         .optimize = mode,
-        .root_source_file = b.path("startup.zig"),
+        .root_source_file = b.path("./startup.zig"),
         .single_threaded = true,
         .unwind_tables = .none,
     });
@@ -32,7 +32,7 @@ pub fn build(b: *std.Build) void {
         .name = "main",
         .target = target,
         .optimize = mode,
-        .root_source_file = b.path("main.zig"),
+        .root_source_file = b.path("./main.zig"),
         .single_threaded = true,
         .unwind_tables = .none,
     });
@@ -42,7 +42,7 @@ pub fn build(b: *std.Build) void {
         .name = "core_cm4",
         .target = target,
         .optimize = mode,
-        .root_source_file = b.path("core_cm4.zig"),
+        .root_source_file = b.path("./core_cm4.zig"),
         .single_threaded = true,
         .unwind_tables = .none,
     });
@@ -52,7 +52,7 @@ pub fn build(b: *std.Build) void {
         .name = "STM32F411RE",
         .target = target,
         .optimize = mode,
-        .root_source_file = b.path("STM32F411RE.zig"),
+        .root_source_file = b.path("./STM32F411RE.zig"),
         .single_threaded = true,
         .unwind_tables = .none,
     });

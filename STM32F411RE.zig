@@ -29,7 +29,7 @@ pub const GPIOD: *volatile GPIO_t = @ptrFromInt(GPIOD_BASE);
 pub const GPIOE: *volatile GPIO_t = @ptrFromInt(GPIOE_BASE);
 pub const GPIOH: *volatile GPIO_t = @ptrFromInt(GPIOH_BASE);
 
-const RCC_CR_t = packed struct {
+const RCC_CR_t = packed struct(u32) {
     HSION: u1,
     HSIRDY: u1,
     _reserved0: u1,
@@ -47,7 +47,7 @@ const RCC_CR_t = packed struct {
     _reserved2: u4,
 };
 
-const RCC_PLLCFGR_t = packed struct {
+const RCC_PLLCFGR_t = packed struct(u32) {
     PLLM: u6,
     PLLN: u9,
     _reserved0: u1,
@@ -59,7 +59,7 @@ const RCC_PLLCFGR_t = packed struct {
     _reserved3: u4,
 };
 
-const RCC_CFGR_t = packed struct {
+const RCC_CFGR_t = packed struct(u32) {
     SW: u2,
     SWS: u2,
     HPRE: u4,
@@ -74,8 +74,92 @@ const RCC_CFGR_t = packed struct {
     MCO2: u2,
 };
 
+const RCC_CIR_t = packed struct(u32) {
+    LSIRDYF: u1,
+    LSERDYF: u1,
+    HSERDYF: u1,
+    PLLRDYF: u1,
+    _reserved0: u1,
+    CSSF: u1,
+    LSIRDYIE: u1,
+    LSERDYIE: u1,
+    HSIRDYIE: u1,
+    HSERDYIE: u1,
+    PLLRDYIE: u1,
+    _reserved1: u2,
+    LSIRDYC: u1,
+    LSERDYC: u1,
+    HSIRDYC: u1,
+    HSERDYC: u1,
+    PLLRDYC: u1,
+    PLLI2SRDYC: u1,
+    _reserved2: u1,
+    CSSC: u1,
+    _reserved3: u8,
+};
+
+const RCC_AHB1RSTR_t = packed struct(u32) {
+    GPIOARST: u1,
+    GPIOBRST: u1,
+    GPIOCRST: u1,
+    GPIODRST: u1,
+    GPIOERST: u1,
+    _reserved0: u2,
+    GPIOHRST: u1,
+    _reserved1: u4,
+    CRCRST: u1,
+    _reserved2: u8,
+    DMA1RST: u1,
+    DMA2RST: u1,
+    _reserved3: u9,
+};
+
+const RCC_AHB2RSTR_t = packed struct(u32) {
+    _reserved0: u7,
+    OTGFSRST: u1,
+    _reserved1: u24,
+};
+
+const RCC_APB1RSTR_t = packed struct(u4) {
+    TIM2RST: u1,
+    TIM3RST: u1,
+    TIM4RST: u1,
+    TIM5RST: u1,
+    _reserved0: u7,
+    WWDGRST: u1,
+    _reserved1: u2,
+    SPI2RST: u1,
+    SPI3RST: u1,
+    _reserved2: u1,
+    USART2RST: u1,
+    _reserved3: u3,
+    I2C1RST: u1,
+    I2C2RST: u1,
+    I2C3RST: u1,
+    _reserved4: u4,
+    PWRRST: u1,
+    _reserved5: u3,
+};
+
+const RCC_APB2RSTR_t = packed struct(u32) {
+    TIM1RST: u1,
+    _reserved0: u3,
+    USART1RST: u1,
+    USART6RST: u1,
+    _reserved1: u2,
+    ADC1RST: u1,
+    _reserved2: u2,
+    SDIORST: u1,
+};
+
 const RCC_t = packed struct {
     RCC_CR: RCC_CR_t,
     RCC_PLLCFGR: RCC_PLLCFGR_t,
     RCC_CFGR: RCC_CFGR_t,
+    RCC_CIR: RCC_CIR_t,
+    RCC_AHB1RSTR: RCC_AHB1RSTR_t,
+    RCC_AHB2RSTR: RCC_AHB2RSTR_t,
+    _reserved0: u64,
+    RCC_APB1RSTR: RCC_APB1RSTR_t,
+    RCC_APB2RSTR: RCC_APB2RSTR_t,
 };
