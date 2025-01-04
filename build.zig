@@ -38,26 +38,6 @@ pub fn build(b: *std.Build) void {
     });
     exe.addObject(main);
 
-    const core_cm4 = b.addObject(.{
-        .name = "core_cm4",
-        .target = target,
-        .optimize = mode,
-        .root_source_file = b.path("./core_cm4.zig"),
-        .single_threaded = true,
-        .unwind_tables = .none,
-    });
-    exe.addObject(core_cm4);
-
-    const STM32F411RE = b.addObject(.{
-        .name = "STM32F411RE",
-        .target = target,
-        .optimize = mode,
-        .root_source_file = b.path("./STM32F411RE.zig"),
-        .single_threaded = true,
-        .unwind_tables = .none,
-    });
-    exe.addObject(STM32F411RE);
-
     exe.setLinkerScript(b.path("./STM32F411RETX_FLASH.ld"));
 
     b.default_step.dependOn(&exe.step);

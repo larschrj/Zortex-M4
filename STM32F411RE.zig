@@ -150,6 +150,38 @@ const RCC_APB2RSTR_t = packed struct(u32) {
     ADC1RST: u1,
     _reserved2: u2,
     SDIORST: u1,
+    SPI1RST: u1,
+    SP45RST: u1,
+    SYSCFGRST: u1,
+    _reserved3: u1,
+    TIM9RST: u1,
+    TIM10RST: u1,
+    TIM11RST: u1,
+    _reserved4: u1,
+    SPI5RST: u1,
+    _reserved5: u11,
+};
+
+const RCC_AHB1ENR_t = packed struct {
+    GPIOAEN: u1,
+    GPIOBEN: u1,
+    GPIOCEN: u1,
+    GPIODEN: u1,
+    GPIOEEN: u1,
+    _reserved0: u2,
+    GPIOHEN: u1,
+    _reserved1: u4,
+    CRCEN: u1,
+    _reserved2: u8,
+    DMA1EN: u1,
+    DMA2EN: u1,
+    _reserved3: u9,
+};
+
+const RCC_AHB2ENR_t = packed struct {
+    _reserved0: u7,
+    OTGFSEN: u1,
+    _reserved1: u24,
 };
 
 const RCC_t = packed struct {
@@ -162,4 +194,8 @@ const RCC_t = packed struct {
     _reserved0: u64,
     RCC_APB1RSTR: RCC_APB1RSTR_t,
     RCC_APB2RSTR: RCC_APB2RSTR_t,
+    _reserved1: u64,
+    RCC_AHB1ENR: RCC_AHB1ENR_t,
+    RCC_AHB2ENR: RCC_AHB2ENR_t,
+    _reserved2: u64,
 };
