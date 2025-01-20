@@ -1,5 +1,10 @@
 const chip = @import("STM32F411RE.zig");
 
+const a: u32 = 1;
+var b: u32 = 0;
+
 export fn main() void {
-    chip.GPIOA.*.IDR = 0x1;
+    while (true) {
+        b |= a + b;
+    }
 }

@@ -162,7 +162,7 @@ const RCC_APB2RSTR_t = packed struct(u32) {
     _reserved5: u11,
 };
 
-const RCC_AHB1ENR_t = packed struct {
+const RCC_AHB1ENR_t = packed struct(u32) {
     GPIOAEN: u1,
     GPIOBEN: u1,
     GPIOCEN: u1,
@@ -178,10 +178,52 @@ const RCC_AHB1ENR_t = packed struct {
     _reserved3: u9,
 };
 
-const RCC_AHB2ENR_t = packed struct {
+const RCC_AHB2ENR_t = packed struct(u32) {
     _reserved0: u7,
     OTGFSEN: u1,
     _reserved1: u24,
+};
+
+const RCC_APB1ENR_t = packed struct(u32) {
+    TIM2EN: u1,
+    TIM3EN: u1,
+    TIM4EN: u1,
+    TIM5EN: u1,
+    _reserved0: u7,
+    WWDGEN: u1,
+    _reserved1: u2,
+    SPI2EN: u1,
+    SPI3EN: u1,
+    _reserved2: u1,
+    USART2EN: u1,
+    _reserved3: u3,
+    I2C1EN: u1,
+    I2C2EN: u1,
+    I2C3EN: u1,
+    _reserved4: u4,
+    PWREN: u1,
+    _reserved5: u3,
+};
+
+const RCC_APB2ENR_t = packed struct(u32) {
+    TIM1EN: u1,
+    _reserved0: u3,
+    USART1EN: u1,
+    USART6EN: u1,
+    _reserved1: u2,
+    ADC1EN: u1,
+    _reserved2: u2,
+    SDIOEN: u1,
+    SPI1EN: u1,
+    SPI4EN: u1,
+    SYSCFGEN: u1,
+    _reserved3: u1,
+    TIM9EN: u1,
+    TIM10EN: u1,
+    TIM11EN: u1,
+    _reserved4: u1,
+    SPI5EN: u1,
+    _reserved5: u11,
 };
 
 const RCC_t = packed struct {
@@ -191,11 +233,14 @@ const RCC_t = packed struct {
     RCC_CIR: RCC_CIR_t,
     RCC_AHB1RSTR: RCC_AHB1RSTR_t,
     RCC_AHB2RSTR: RCC_AHB2RSTR_t,
-    _reserved0: u64,
+    _reserved0: [2]u32,
     RCC_APB1RSTR: RCC_APB1RSTR_t,
     RCC_APB2RSTR: RCC_APB2RSTR_t,
-    _reserved1: u64,
+    _reserved1: [2]u32,
     RCC_AHB1ENR: RCC_AHB1ENR_t,
     RCC_AHB2ENR: RCC_AHB2ENR_t,
-    _reserved2: u64,
+    _reserved2: [2]u32,
+    RCC_APB1ENR: RCC_APB1ENR_t,
+    RCC_APB2ENR: RCC_APB2ENR_t,
+    _reserved3: [2]u32,
 };

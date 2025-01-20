@@ -1,8 +1,5 @@
 const builtin = @import("builtin");
 
-const a: f32 = 3.0;
-var b: f32 = 5.0;
-
 extern fn main() void;
 extern var __data_start_flash: u32;
 extern var __data_start_ram: u32;
@@ -23,7 +20,6 @@ export fn Reset_Handler() void {
     const bss: [*]u8 = @ptrCast(&__bss_start);
     for (bss[0..bss_size]) |*d| d.* = 0;
     // start
-    b = a * b;
     main();
 }
 
