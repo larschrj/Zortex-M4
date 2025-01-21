@@ -226,6 +226,52 @@ const RCC_APB2ENR_t = packed struct(u32) {
     _reserved5: u11,
 };
 
+const RCC_AHB1LPENR_t = packed struct(u32) {
+    GPIOALPEN: u1,
+    GPIOBLPEN: u1,
+    GPIOCLPEN: u1,
+    GPIODLPEN: u1,
+    GPIOELPEN: u1,
+    _reserved0: u2,
+    GPIOHLPEN: u1,
+    _reserved1: u4,
+    CRCLPEN: u1,
+    _reserved2: u2,
+    FLITFLPEN: u1,
+    SRAM1LPEN: u1,
+    _reserved3: u4,
+    DMA1LPEN: u1,
+    DMA2LPEN: u1,
+    _reserved4: u9,
+};
+
+const RCC_AHB2LPENR_t = packed struct(u32) {
+    _reserved0: u7,
+    OTGFSLPEN: u1,
+    _reserved1: u24,
+};
+
+const RCC_APB1LPENR_t = packed struct(u32) {
+    TIM2LPEN: u1,
+    TIM3LPEN: u1,
+    TIM4LPEN: u1,
+    TIM5LPEN: u1,
+    _reserved0: u7,
+    WWDGLPEN: u1,
+    _reserved1: u2,
+    SPI2LPEN: u1,
+    SPI3LPEN: u1,
+    _reserved2: u1,
+    USART2LPEN: u1,
+    _reserved3: u3,
+    I2C1LPEN: u1,
+    I2C2LPEN: u1,
+    I2C3LPEN: u1,
+    _reserved4: u4,
+    PWRLPEN: u1,
+    _reserved5: u3,
+};
+
 const RCC_t = packed struct {
     RCC_CR: RCC_CR_t,
     RCC_PLLCFGR: RCC_PLLCFGR_t,
@@ -243,4 +289,17 @@ const RCC_t = packed struct {
     RCC_APB1ENR: RCC_APB1ENR_t,
     RCC_APB2ENR: RCC_APB2ENR_t,
     _reserved3: [2]u32,
+    RCC_AHB1LPENR: RCC_AHB1LPENR_t,
+    RCC_AHB2LPENR: RCC_AHB2LPENR_t,
+    _reserved4: [2]u32,
+    RCC_APB1LPENR: RCC_APB1LPENR_t,
+    RCC_APB2LPENR: RCC_APB2LPENR_t,
+    _reserved5: [2]u32,
+    RCC_BDCR: RCC_BDCR_t,
+    RCC_CSR: RCC_CSR_t,
+    _reserved6: [2]u32,
+    RCC_SSCGR: RCC_SSCGR_t,
+    RCC_PLLI2SCFGR: RCC_PLLI2SCFGR_t,
+    _reserved7: u32,
+    RCC_DCKCFGR: RCC_DCKCFGR_t,
 };
