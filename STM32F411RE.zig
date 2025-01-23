@@ -380,3 +380,70 @@ const RCC_t = packed struct {
 
 const RCC_BASE: u32 = 0x40023800;
 pub const RCC: *volatile RCC_t = @ptrFromInt(RCC_BASE);
+
+const TIMx_CR1_t = packed struct(u32) {
+    CEN: u1,
+    UDIS: u1,
+    URS: u1,
+    OPM: u1,
+    DIR: u1,
+    CMS: u2,
+    ARPE: u1,
+    CKD: u2,
+    _reserved0: u22,
+};
+
+const TIMx_CR2_t = packed struct(u32) {
+    CCPC: u1,
+    _reserved0: u1,
+    CCUS: u1,
+    CCDS: u1,
+    MMS: u3,
+    TI1S: u1,
+    OIS1: u1,
+    OIS1N: u2,
+    OIS2: u1,
+    OIS2N: u1,
+    OIS3: u1,
+    OIS3N: u1,
+    OIS4: u1,
+    _reserved1: u17,
+};
+
+const TIMx_SMCR_t = packed struct(u32) {
+    SMS: u3,
+    _reserved0: u1,
+    TS: u3,
+    MSM: u1,
+    ETF: u4,
+    ETPS: u2,
+    ECE: u1,
+    ETP: u1,
+    _reserved1: u16,
+};
+
+const TIMx_DIER_t = packed struct(u32) {
+    UIE: u1,
+    CC1IE: u1,
+    CC2IE: u1,
+    CC3IE: u1,
+    CC4IE: u1,
+    COMIE: u1,
+    TIE: u1,
+    BIE: u1,
+    UDE: u1,
+    CC1DE: u1,
+    CC2DE: u1,
+    CC3DE: u1,
+    CC4DE: u1,
+    COMDE: u1,
+    TDE: u1,
+    _reserved0: u17,
+};
+
+const TIM1_t = packed struct {
+    TIMx_CR1: TIMx_CR1_t,
+    TIMx_CR2: TIMx_CR2_t,
+    TIMx_SMCR: TIMx_SMCR_t,
+    TIMx_DIER: TIMx_DIER_t,
+};
