@@ -447,3 +447,6 @@ const TIM1_t = packed struct {
     TIMx_SMCR: TIMx_SMCR_t,
     TIMx_DIER: TIMx_DIER_t,
 };
+
+const TIM1_BASE: u32 = 0x40010000;
+pub const TIM1: *volatile TIM1_t = @ptrFromInt(TIM1_BASE);
