@@ -77,8 +77,10 @@ const RCC_CFGR_t = packed struct(u32) {
 const RCC_CIR_t = packed struct(u32) {
     LSIRDYF: u1,
     LSERDYF: u1,
+    HSIRDYF: u1,
     HSERDYF: u1,
     PLLRDYF: u1,
+    PLLI2SRDYF: u1,
     _reserved0: u1,
     CSSF: u1,
     LSIRDYIE: u1,
@@ -86,6 +88,7 @@ const RCC_CIR_t = packed struct(u32) {
     HSIRDYIE: u1,
     HSERDYIE: u1,
     PLLRDYIE: u1,
+    PLLI2SRDYIE: u1,
     _reserved1: u2,
     LSIRDYC: u1,
     LSERDYC: u1,
@@ -120,7 +123,7 @@ const RCC_AHB2RSTR_t = packed struct(u32) {
     _reserved1: u24,
 };
 
-const RCC_APB1RSTR_t = packed struct(u4) {
+const RCC_APB1RSTR_t = packed struct(u32) {
     TIM2RST: u1,
     TIM3RST: u1,
     TIM4RST: u1,
@@ -272,6 +275,77 @@ const RCC_APB1LPENR_t = packed struct(u32) {
     _reserved5: u3,
 };
 
+const RCC_APB2LPENR_t = packed struct(u32) {
+    TIM1LPEN: u1,
+    _reserved0: u3,
+    USART1LPEN: u1,
+    USART6LPEN: u1,
+    _reserved1: u2,
+    ADC1LPEN: u1,
+    _reserved2: u2,
+    SDIOLPEN: u1,
+    SPI1LPEN: u1,
+    SPI4LPEN: u1,
+    SYSCFGLPEN: u1,
+    _reserved3: u1,
+    TIM9LPEN: u1,
+    TIM10LPEN: u1,
+    TIM11LPEN: u1,
+    _reserved4: u1,
+    SPI5LPEN: u1,
+    _reserved5: u11,
+};
+
+const RCC_BDCR_t = packed struct(u32) {
+    LSEON: u1,
+    LSERDY: u1,
+    LSEBYP: u1,
+    LSEMOD: u1,
+    _reserved0: u4,
+    RTCSEL0: u1,
+    RTCSEL1: u1,
+    _reserved1: u5,
+    RTCENL: u1,
+    BDRST: u1,
+    _reserved2: u15,
+};
+
+const RCC_CSR_t = packed struct(u32) {
+    LSION: u1,
+    LSIRDY: u1,
+    _reserved0: u22,
+    RMVF: u1,
+    BORRSTF: u1,
+    PINRSTF: u1,
+    PORRSTF: u1,
+    SFTRSTF: u1,
+    IWDGRSTF: u1,
+    WWDGRSTF: u1,
+    LPWRRSTF: u1,
+};
+
+const RCC_SSCGR_t = packed struct(u32) {
+    MODEP: u13,
+    INCSTEP: u15,
+    _reserved0: u2,
+    SPREADSEL: u1,
+    SSCGEN: u1,
+};
+
+const RCC_PLLI2SCFGR_t = packed struct(u32) {
+    PLLI2SMx: u6,
+    PLLI2SNx: u9,
+    _reserved0: u13,
+    PLLI2SRx: u3,
+    _reserved1: u1,
+};
+
+const RCC_DCKCFGR_t = packed struct(u32) {
+    _reserved0: u24,
+    TIMPRE: u1,
+    _reserved1: u7,
+};
+
 const RCC_t = packed struct {
     RCC_CR: RCC_CR_t,
     RCC_PLLCFGR: RCC_PLLCFGR_t,
@@ -279,27 +353,30 @@ const RCC_t = packed struct {
     RCC_CIR: RCC_CIR_t,
     RCC_AHB1RSTR: RCC_AHB1RSTR_t,
     RCC_AHB2RSTR: RCC_AHB2RSTR_t,
-    _reserved0: [2]u32,
+    _reserved0: u64,
     RCC_APB1RSTR: RCC_APB1RSTR_t,
     RCC_APB2RSTR: RCC_APB2RSTR_t,
-    _reserved1: [2]u32,
+    _reserved1: u64,
     RCC_AHB1ENR: RCC_AHB1ENR_t,
     RCC_AHB2ENR: RCC_AHB2ENR_t,
-    _reserved2: [2]u32,
+    _reserved2: u64,
     RCC_APB1ENR: RCC_APB1ENR_t,
     RCC_APB2ENR: RCC_APB2ENR_t,
-    _reserved3: [2]u32,
+    _reserved3: u64,
     RCC_AHB1LPENR: RCC_AHB1LPENR_t,
     RCC_AHB2LPENR: RCC_AHB2LPENR_t,
-    _reserved4: [2]u32,
+    _reserved4: u64,
     RCC_APB1LPENR: RCC_APB1LPENR_t,
     RCC_APB2LPENR: RCC_APB2LPENR_t,
-    _reserved5: [2]u32,
+    _reserved5: u64,
     RCC_BDCR: RCC_BDCR_t,
     RCC_CSR: RCC_CSR_t,
-    _reserved6: [2]u32,
+    _reserved6: u64,
     RCC_SSCGR: RCC_SSCGR_t,
     RCC_PLLI2SCFGR: RCC_PLLI2SCFGR_t,
     _reserved7: u32,
     RCC_DCKCFGR: RCC_DCKCFGR_t,
 };
+
+const RCC_BASE: u32 = 0x40023800;
+pub const RCC: *volatile RCC_t = @ptrFromInt(RCC_BASE);
