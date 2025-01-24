@@ -9,6 +9,8 @@ export fn main() void {
     chip.GPIOA.OTYPER &= ~@as(u16, 0x0 << 5);
     chip.GPIOA.PUPDR |= 0x10 << 10;
 
+    chip.TIM1.CCMR1.O.OC1CE = 0b0;
+
     while (true) {
         chip.GPIOA.ODR ^= 0x1 << 5;
     }

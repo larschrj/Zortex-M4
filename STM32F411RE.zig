@@ -499,14 +499,71 @@ const TIMx_CCMR1_t = packed union {
     I: TIMx_CCMR1_I_t,
 };
 
+const TIMx_CCMR2_O_t = packed struct(u32) {
+    CC3S: u2,
+    OC3FE: u1,
+    OC3PE: u1,
+    OC3M: u3,
+    OC3CE: u1,
+    CC4S: u2,
+    OC4FE: u1,
+    OC4PE: u1,
+    OC4M: u3,
+    OC4CE: u1,
+    _reserved0: u16,
+};
+
+const TIMx_CCMR2_I_t = packed struct(u32) {
+    CC3S: u2,
+    IC3PSC: u2,
+    IC3F: u4,
+    CC4S: u2,
+    IC4PSC: u2,
+    IC4F: u4,
+    _reserved0: u16,
+};
+
+const TIMx_CCMR2_t = packed union {
+    O: TIMx_CCMR2_O_t,
+    I: TIMx_CCMR2_I_t,
+};
+
+const TIMx_CCER_t = packed struct(u32) {
+    CC1E: u1,
+    CC1P: u1,
+    CC1NE: u1,
+    CC1NP: u1,
+    CC2E: u1,
+    CC2P: u1,
+    CC2NE: u1,
+    CC2NP: u1,
+    CC3E: u1,
+    CC3P: u1,
+    CC3NE: u1,
+    CC3NP: u1,
+    CC4E: u1,
+    CC4P: u1,
+    _reserved0: u18,
+};
+
 const TIM1_t = packed struct {
-    TIMx_CR1: TIMx_CR1_t,
-    TIMx_CR2: TIMx_CR2_t,
-    TIMx_SMCR: TIMx_SMCR_t,
-    TIMx_DIER: TIMx_DIER_t,
-    TIMx_SR: TIMx_SR_t,
-    TIMx_EGR: TIMx_EGR_t,
-    TIMx_CCMR1: TIMx_CCMR1_t,
+    CR1: TIMx_CR1_t,
+    CR2: TIMx_CR2_t,
+    SMCR: TIMx_SMCR_t,
+    DIER: TIMx_DIER_t,
+    SR: TIMx_SR_t,
+    EGR: TIMx_EGR_t,
+    CCMR1: TIMx_CCMR1_t,
+    CCMR2: TIMx_CCMR2_t,
+    CCER: TIMx_CCER_t,
+    CNT: u16,
+    _reserved0: u16,
+    PSC: u16,
+    _reserved1: u16,
+    ARR: u16,
+    _reserved2: u16,
+    REP: u8,
+    _reserved3: u24,
 };
 
 const TIM1_BASE: u32 = 0x40010000;
