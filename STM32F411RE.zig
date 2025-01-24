@@ -401,7 +401,7 @@ const TIMx_CR2_t = packed struct(u32) {
     MMS: u3,
     TI1S: u1,
     OIS1: u1,
-    OIS1N: u2,
+    OIS1N: u1,
     OIS2: u1,
     OIS2N: u1,
     OIS3: u1,
@@ -441,11 +441,72 @@ const TIMx_DIER_t = packed struct(u32) {
     _reserved0: u17,
 };
 
+const TIMx_SR_t = packed struct(u32) {
+    UIF: u1,
+    CC1IF: u1,
+    CC2IF: u1,
+    CC3IF: u1,
+    CC4IF: u1,
+    COMIF: u1,
+    TIF: u1,
+    BIF: u1,
+    _reserved0: u1,
+    CC1OF: u1,
+    CC2OF: u1,
+    CC3OF: u1,
+    CC4OF: u1,
+    _reserved1: u19,
+};
+
+const TIMx_EGR_t = packed struct(u32) {
+    UG: u1,
+    CC1G: u1,
+    CC2G: u1,
+    CC3G: u1,
+    CC4G: u1,
+    COMG: u1,
+    TG: u1,
+    BG: u1,
+    _reserved0: u24,
+};
+
+const TIMx_CCMR1_O_t = packed struct(u32) {
+    CC1S: u2,
+    OC1FE: u1,
+    OC1PE: u1,
+    OC1M: u3,
+    OC1CE: u1,
+    CC2S: u2,
+    OC2FE: u1,
+    OC2PE: u1,
+    OC2M: u3,
+    OC2CE: u1,
+    _reserved0: u16,
+};
+
+const TIMx_CCMR1_I_t = packed struct(u32) {
+    CC1S: u2,
+    IC1PSC: u2,
+    IC1F: u4,
+    CC2S: u2,
+    IC2PSC: u2,
+    IC2F: u4,
+    _reserved0: u16,
+};
+
+const TIMx_CCMR1_t = packed union {
+    O: TIMx_CCMR1_O_t,
+    I: TIMx_CCMR1_I_t,
+};
+
 const TIM1_t = packed struct {
     TIMx_CR1: TIMx_CR1_t,
     TIMx_CR2: TIMx_CR2_t,
     TIMx_SMCR: TIMx_SMCR_t,
     TIMx_DIER: TIMx_DIER_t,
+    TIMx_SR: TIMx_SR_t,
+    TIMx_EGR: TIMx_EGR_t,
+    TIMx_CCMR1: TIMx_CCMR1_t,
 };
 
 const TIM1_BASE: u32 = 0x40010000;
