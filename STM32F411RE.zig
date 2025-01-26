@@ -127,6 +127,51 @@ const GPIOA_AF_P9 = enum(u4) {
     EVENT_OUT = 15,
 };
 
+const GPIOA_AF_P10 = enum(u4) {
+    TIM1_CH3 = 1,
+    SPI5_MOSI_I2S5_SD = 6,
+    USART1_RX = 7,
+    USB_FS_ID = 10,
+    EVENT_OUT = 15,
+};
+
+const GPIOA_AF_P11 = enum(u4) {
+    TIM1_CH4 = 1,
+    SPI4_MISO = 6,
+    USART1_CTS = 7,
+    USART6_TX = 8,
+    USB_FS_DM = 10,
+    EVENT_OUT = 15,
+};
+
+const GPIOA_AF_P12 = enum(u4) {
+    TIM1_ETR = 1,
+    SPI5_MISO = 6,
+    USART1_RTS = 7,
+    USART6_RX = 8,
+    USB_FS_DP = 10,
+    EVENT_OUT = 15,
+};
+
+const GPIOA_AF_P13 = enum(u4) {
+    JTMS_SWDIO = 0,
+    EVENT_OUT = 15,
+};
+
+const GPIOA_AF_P14 = enum(u4) {
+    JTCK_SWCLK = 0,
+    EVENT_OUT = 15,
+};
+
+const GPIOA_AF_P15 = enum(u4) {
+    JTDI = 0,
+    TIM2_CH1_TIM2_ETR = 1,
+    SPI1_NSS_I2S1_WS = 5,
+    SPI3_NSS_I2S3_WS = 6,
+    USART1_TX = 7,
+    EVENT_OUT = 15,
+};
+
 const RCC_CR_t = packed struct(u32) {
     HSION: u1,
     HSIRDY: u1,
