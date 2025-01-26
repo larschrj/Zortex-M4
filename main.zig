@@ -11,7 +11,7 @@ export fn main() void {
 
     chip.TIM1.CCMR1.O.OC1CE = 0b0;
 
-    while (true) {
-        chip.GPIOA.ODR ^= 0x1 << 5;
-    }
+    chip.GPIOA.ODR |= 0x1 << 5;
+
+    while (true) {}
 }
