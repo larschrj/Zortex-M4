@@ -5,12 +5,10 @@ export var a: u32 = 3;
 export fn main() void {
     chip.RCC.RCC.RCC_AHB1ENR.GPIOAEN |= 0x1;
 
-    chip.GPIO.GPIOA.MODER.MODER5 = 1;
-    chip.GPIO.GPIOA.OTYPER &= ~@as(u16, 0x0 << 5);
-    chip.GPIO.GPIOA.PUPDR |= 0x10 << 10;
-    chip.GPIO.GPIOA.ODR |= 0x1 << 5;
-
-    chip.TIM1.CCMR1.O.OC1CE = 0b0;
+    chip.GPIO.GPIOA.MODER.MODER5 = chip.GPIO.GPIO_MODE.output;
+    chip.GPIO.GPIOA.OTYPER.OT5 = chip.GPIO.GPIO_OTYPE.push_pull;
+    chip.GPIO.GPIOA.PUPDR.PUPDR5 = chip.GPIO.GPIO_PUPD.pullup;
+    chip.GPIO.GPIOA.ODR.ODR5 = 0b1;
 
     while (true) {}
 }
