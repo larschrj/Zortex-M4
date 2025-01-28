@@ -203,6 +203,131 @@ const GPIOA_AFR_t = packed struct(u64) {
     AFR13: GPIOA_AF_P13,
     AFR14: GPIOA_AF_P14,
     AFR15: GPIOA_AF_P15,
+
+    pub const GPIOA_AF_P0 = enum(u4) {
+        TIM2_CH1_TIM2_ETR = 1,
+        TIM5_CH1 = 2,
+        USART2_CTS = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P1 = enum(u4) {
+        TIM2_CH2 = 1,
+        TIM5_CH2 = 2,
+        SPI4_MOSI_I2S4_SD = 5,
+        USART2_RTS = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P2 = enum(u4) {
+        TIM2_CH3 = 1,
+        TIM5_CH3 = 2,
+        TIM9_CH1 = 3,
+        I2S2_CKIN = 5,
+        USART2_TX = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P3 = enum(u4) {
+        TIM2_CH4 = 1,
+        TIM5_CH4 = 2,
+        TIM9_CH2 = 3,
+        I2S2_MCK = 5,
+        USART2_RX = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P4 = enum(u4) {
+        SPI1_NSS_I2S1_WS = 5,
+        SPI3_NSS_I2S3_WS = 6,
+        USART2_CK = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P5 = enum(u4) {
+        TIM2_CH1_TIM2_ETR = 1,
+        SPI1_SCK_I2S1_CK = 5,
+    };
+
+    pub const GPIOA_AF_P6 = enum(u4) {
+        TIM1_BKIN = 1,
+        TIM3_CH1 = 2,
+        SPI1_MOSI = 5,
+        IS2S_MCK = 6,
+        SDIO_CMD = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P7 = enum(u4) {
+        TIM1_CH1N = 1,
+        TIM3_CH2 = 2,
+        SPI1_MOSI_I2S1_SD = 5,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P8 = enum(u4) {
+        MCO1 = 0,
+        TIM1_CH1 = 1,
+        I2C3_SCL = 4,
+        USART1_CK = 7,
+        USB_FS_SOF = 10,
+        SDIO_D1 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P9 = enum(u4) {
+        TIM1_CH2 = 1,
+        I2C3_SMBA = 4,
+        USART_TX = 7,
+        USB_FS_VBUS = 10,
+        SDIO_D2 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P10 = enum(u4) {
+        TIM1_CH3 = 1,
+        SPI5_MOSI_I2S5_SD = 6,
+        USART1_RX = 7,
+        USB_FS_ID = 10,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P11 = enum(u4) {
+        TIM1_CH4 = 1,
+        SPI4_MISO = 6,
+        USART1_CTS = 7,
+        USART6_TX = 8,
+        USB_FS_DM = 10,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P12 = enum(u4) {
+        TIM1_ETR = 1,
+        SPI5_MISO = 6,
+        USART1_RTS = 7,
+        USART6_RX = 8,
+        USB_FS_DP = 10,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P13 = enum(u4) {
+        JTMS_SWDIO = 0,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P14 = enum(u4) {
+        JTCK_SWCLK = 0,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOA_AF_P15 = enum(u4) {
+        JTDI = 0,
+        TIM2_CH1_TIM2_ETR = 1,
+        SPI1_NSS_I2S1_WS = 5,
+        SPI3_NSS_I2S3_WS = 6,
+        USART1_TX = 7,
+        EVENT_OUT = 15,
+    };
 };
 
 const GPIOB_AFR_t = packed struct(u64) {
@@ -222,6 +347,137 @@ const GPIOB_AFR_t = packed struct(u64) {
     AFR13: GPIOB_AF_P13,
     AFR14: GPIOB_AF_P14,
     AFR15: GPIOB_AF_P15,
+
+    pub const GPIOB_AF_P0 = enum(u4) {
+        TIM1_CH2N = 1,
+        TIM3_CH3 = 2,
+        SPI5_SCK_I2S5_CK = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P1 = enum(u4) {
+        TIM1_CH3N = 1,
+        TIM3_CH4 = 2,
+        SPI5_NSS_I2S5_WS = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P2 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P3 = enum(u4) {
+        JTDO_SWO = 0,
+        TIM2_CH2 = 1,
+        SPI1_SCK_I2S1_CK = 5,
+        SPI3_SCK_I2S3_CK = 6,
+        USART1_RX = 7,
+        I2C2_SDA = 9,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P4 = enum(u4) {
+        JTRST = 0,
+        TIM3_CH1 = 2,
+        SPI1_MISO = 5,
+        SPI3_MISO = 6,
+        I2S3EXT_SD = 7,
+        I2C3_SDA = 9,
+        SDIO_D0 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P5 = enum(u4) {
+        TIM3_CH2 = 2,
+        I2C1_SMBA = 4,
+        SPI1_MOSI_I2S1_SD = 5,
+        SPI3_MOSI_I2S3_SD = 6,
+        SDIO_D3 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P6 = enum(u4) {
+        TIM4_CH1 = 2,
+        I2C1_SCL = 4,
+        USART1_TX = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P7 = enum(u4) {
+        TIM4_CH2 = 2,
+        I2C1_SDA = 4,
+        USART1_RX = 7,
+        SDIO_D0 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P8 = enum(u4) {
+        TIM4_CH3 = 2,
+        TIM10_CH1 = 3,
+        I2C1_SCL = 4,
+        SPI5_MOSI_I2S5_SD = 6,
+        I2C3_SDA = 9,
+        SDIO_D4 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P9 = enum(u4) {
+        TIM4_CH4 = 2,
+        TIM11_CH1 = 3,
+        I2C1_SDA = 4,
+        SPI2_NSS_I2S2_WS = 5,
+        I2C2_SDA = 9,
+        SDIO_D5 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P10 = enum(u4) {
+        TIM2_CH3 = 1,
+        I2C2_SCL = 4,
+        SPI2_SCK_I2S2_CK = 5,
+        I2S3_MCK = 6,
+        SDIO_D7 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P11 = enum(u4) {
+        TIM2_CH4 = 1,
+        I2C2_SDA = 4,
+        I2S2_CKIN = 5,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P12 = enum(u4) {
+        TIM1_BKIN = 1,
+        I2C2_SMBA = 4,
+        SPI2_NSS_I2S2_WS = 5,
+        SPI4_NSS_I2S4_WS = 6,
+        SPI3_SCK_I2S3_CK = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P13 = enum(u4) {
+        TIM1_CH1N = 1,
+        SPI2_SCK_I2S2_CK = 5,
+        SPI4_SCK_I2S4_CK = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P14 = enum(u4) {
+        TIM1_CH2N = 1,
+        SPI2_MISO = 5,
+        I2S2ext_SD = 6,
+        SDIO_D6 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOB_AF_P15 = enum(u4) {
+        RTC_50HZ = 0,
+        TIM1_CH3N = 1,
+        SPI2_MOSI_I2S2_SD = 5,
+        SDIO_CK = 12,
+        EVENT_OUT = 15,
+    };
 };
 
 const GPIOC_AFR_t = packed struct(u64) {
@@ -241,6 +497,91 @@ const GPIOC_AFR_t = packed struct(u64) {
     AFR13: GPIOC_AF_P13,
     AFR14: GPIOC_AF_P14,
     AFR15: GPIOC_AF_P15,
+
+    pub const GPIOC_AF_P0 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P1 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P2 = enum(u4) {
+        SPI2_MISO = 5,
+        I2S2ext_SD = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P3 = enum(u4) {
+        SPI2_MOSI_I2S2_SD = 5,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P4 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P5 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P6 = enum(u4) {
+        TIM3_CH1 = 2,
+        I2S2_MCK = 5,
+        USART6_TX = 8,
+        SDIO_D6 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P7 = enum(u4) {
+        TIM3_CH2 = 2,
+        SPI2_SCK_I2S2_CK = 5,
+        I2S3_MCK = 6,
+        USART6_RX = 8,
+        SDIO_D7 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P8 = enum(u4) {
+        TIM3_CH3 = 2,
+        USART6_CK = 8,
+        SDIO_D0 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P9 = enum(u4) {
+        MCO_2 = 0,
+        TIM3_CH4 = 2,
+        I2C3_SDA = 4,
+        I2S2_CKIN = 5,
+        SDIO_D1 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P10 = enum(u4) {
+        SPI3_SCK_I2S3_CK = 6,
+        SDIO_D2 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P11 = enum(u4) {
+        I2S3ext_SD = 5,
+        SPI3_MISO = 6,
+        SDIO_D3 = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P12 = enum(u4) {
+        SPI3_MOSI_I2S3_SD = 6,
+        SDIO_CK = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOC_AF_P13 = enum(u4) {};
+
+    pub const GPIOC_AF_P14 = enum(u4) {};
+
+    pub const GPIOC_AF_P15 = enum(u4) {};
 };
 
 const GPIO_t = packed struct {
@@ -337,336 +678,3 @@ pub const GPIO_PUPD = enum(u2) {
     pullup = 0b01,
     pulldown = 0b10,
 };
-
-pub const GPIOA_AF_P0 = enum(u4) {
-    TIM2_CH1_TIM2_ETR = 1,
-    TIM5_CH1 = 2,
-    USART2_CTS = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P1 = enum(u4) {
-    TIM2_CH2 = 1,
-    TIM5_CH2 = 2,
-    SPI4_MOSI_I2S4_SD = 5,
-    USART2_RTS = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P2 = enum(u4) {
-    TIM2_CH3 = 1,
-    TIM5_CH3 = 2,
-    TIM9_CH1 = 3,
-    I2S2_CKIN = 5,
-    USART2_TX = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P3 = enum(u4) {
-    TIM2_CH4 = 1,
-    TIM5_CH4 = 2,
-    TIM9_CH2 = 3,
-    I2S2_MCK = 5,
-    USART2_RX = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P4 = enum(u4) {
-    SPI1_NSS_I2S1_WS = 5,
-    SPI3_NSS_I2S3_WS = 6,
-    USART2_CK = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P5 = enum(u4) {
-    TIM2_CH1_TIM2_ETR = 1,
-    SPI1_SCK_I2S1_CK = 5,
-};
-
-pub const GPIOA_AF_P6 = enum(u4) {
-    TIM1_BKIN = 1,
-    TIM3_CH1 = 2,
-    SPI1_MOSI = 5,
-    IS2S_MCK = 6,
-    SDIO_CMD = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P7 = enum(u4) {
-    TIM1_CH1N = 1,
-    TIM3_CH2 = 2,
-    SPI1_MOSI_I2S1_SD = 5,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P8 = enum(u4) {
-    MCO1 = 0,
-    TIM1_CH1 = 1,
-    I2C3_SCL = 4,
-    USART1_CK = 7,
-    USB_FS_SOF = 10,
-    SDIO_D1 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P9 = enum(u4) {
-    TIM1_CH2 = 1,
-    I2C3_SMBA = 4,
-    USART_TX = 7,
-    USB_FS_VBUS = 10,
-    SDIO_D2 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P10 = enum(u4) {
-    TIM1_CH3 = 1,
-    SPI5_MOSI_I2S5_SD = 6,
-    USART1_RX = 7,
-    USB_FS_ID = 10,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P11 = enum(u4) {
-    TIM1_CH4 = 1,
-    SPI4_MISO = 6,
-    USART1_CTS = 7,
-    USART6_TX = 8,
-    USB_FS_DM = 10,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P12 = enum(u4) {
-    TIM1_ETR = 1,
-    SPI5_MISO = 6,
-    USART1_RTS = 7,
-    USART6_RX = 8,
-    USB_FS_DP = 10,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P13 = enum(u4) {
-    JTMS_SWDIO = 0,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P14 = enum(u4) {
-    JTCK_SWCLK = 0,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOA_AF_P15 = enum(u4) {
-    JTDI = 0,
-    TIM2_CH1_TIM2_ETR = 1,
-    SPI1_NSS_I2S1_WS = 5,
-    SPI3_NSS_I2S3_WS = 6,
-    USART1_TX = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P0 = enum(u4) {
-    TIM1_CH2N = 1,
-    TIM3_CH3 = 2,
-    SPI5_SCK_I2S5_CK = 6,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P1 = enum(u4) {
-    TIM1_CH3N = 1,
-    TIM3_CH4 = 2,
-    SPI5_NSS_I2S5_WS = 6,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P2 = enum(u4) {
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P3 = enum(u4) { JTDO_SWO = 0, TIM2_CH2 = 1, SPI1_SCK_I2S1_CK = 5, SPI3_SCK_I2S3_CK = 6, USART1_RX = 7, I2C2_SDA = 9, EVENT_OUT = 15 };
-
-pub const GPIOB_AF_P4 = enum(u4) {
-    JTRST = 0,
-    TIM3_CH1 = 2,
-    SPI1_MISO = 5,
-    SPI3_MISO = 6,
-    I2S3EXT_SD = 7,
-    I2C3_SDA = 9,
-    SDIO_D0 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P5 = enum(u4) {
-    TIM3_CH2 = 2,
-    I2C1_SMBA = 4,
-    SPI1_MOSI_I2S1_SD = 5,
-    SPI3_MOSI_I2S3_SD = 6,
-    SDIO_D3 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P6 = enum(u4) {
-    TIM4_CH1 = 2,
-    I2C1_SCL = 4,
-    USART1_TX = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P7 = enum(u4) {
-    TIM4_CH2 = 2,
-    I2C1_SDA = 4,
-    USART1_RX = 7,
-    SDIO_D0 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P8 = enum(u4) {
-    TIM4_CH3 = 2,
-    TIM10_CH1 = 3,
-    I2C1_SCL = 4,
-    SPI5_MOSI_I2S5_SD = 6,
-    I2C3_SDA = 9,
-    SDIO_D4 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P9 = enum(u4) {
-    TIM4_CH4 = 2,
-    TIM11_CH1 = 3,
-    I2C1_SDA = 4,
-    SPI2_NSS_I2S2_WS = 5,
-    I2C2_SDA = 9,
-    SDIO_D5 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P10 = enum(u4) {
-    TIM2_CH3 = 1,
-    I2C2_SCL = 4,
-    SPI2_SCK_I2S2_CK = 5,
-    I2S3_MCK = 6,
-    SDIO_D7 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P11 = enum(u4) {
-    TIM2_CH4 = 1,
-    I2C2_SDA = 4,
-    I2S2_CKIN = 5,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P12 = enum(u4) {
-    TIM1_BKIN = 1,
-    I2C2_SMBA = 4,
-    SPI2_NSS_I2S2_WS = 5,
-    SPI4_NSS_I2S4_WS = 6,
-    SPI3_SCK_I2S3_CK = 7,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P13 = enum(u4) {
-    TIM1_CH1N = 1,
-    SPI2_SCK_I2S2_CK = 5,
-    SPI4_SCK_I2S4_CK = 6,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P14 = enum(u4) {
-    TIM1_CH2N = 1,
-    SPI2_MISO = 5,
-    I2S2ext_SD = 6,
-    SDIO_D6 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOB_AF_P15 = enum(u4) {
-    RTC_50HZ = 0,
-    TIM1_CH3N = 1,
-    SPI2_MOSI_I2S2_SD = 5,
-    SDIO_CK = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P0 = enum(u4) {
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P1 = enum(u4) {
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P2 = enum(u4) {
-    SPI2_MISO = 5,
-    I2S2ext_SD = 6,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P3 = enum(u4) {
-    SPI2_MOSI_I2S2_SD = 5,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P4 = enum(u4) {
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P5 = enum(u4) {
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P6 = enum(u4) {
-    TIM3_CH1 = 2,
-    I2S2_MCK = 5,
-    USART6_TX = 8,
-    SDIO_D6 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P7 = enum(u4) {
-    TIM3_CH2 = 2,
-    SPI2_SCK_I2S2_CK = 5,
-    I2S3_MCK = 6,
-    USART6_RX = 8,
-    SDIO_D7 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P8 = enum(u4) {
-    TIM3_CH3 = 2,
-    USART6_CK = 8,
-    SDIO_D0 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P9 = enum(u4) {
-    MCO_2 = 0,
-    TIM3_CH4 = 2,
-    I2C3_SDA = 4,
-    I2S2_CKIN = 5,
-    SDIO_D1 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P10 = enum(u4) {
-    SPI3_SCK_I2S3_CK = 6,
-    SDIO_D2 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P11 = enum(u4) {
-    I2S3ext_SD = 5,
-    SPI3_MISO = 6,
-    SDIO_D3 = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P12 = enum(u4) {
-    SPI3_MOSI_I2S3_SD = 6,
-    SDIO_CK = 12,
-    EVENT_OUT = 15,
-};
-
-pub const GPIOC_AF_P13 = enum(u4) {};
-
-pub const GPIOC_AF_P14 = enum(u4) {};
-
-pub const GPIOC_AF_P15 = enum(u4) {};
