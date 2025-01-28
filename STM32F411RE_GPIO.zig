@@ -186,6 +186,44 @@ const GPIO_AFR_t = packed struct(u64) {
     AFR15: u4,
 };
 
+const GPIOA_AFR_t = packed struct(u64) {
+    AFR0: GPIOA_AF_P0,
+    AFR1: GPIOA_AF_P1,
+    AFR2: GPIOA_AF_P2,
+    AFR3: GPIOA_AF_P3,
+    AFR4: GPIOA_AF_P4,
+    AFR5: GPIOA_AF_P5,
+    AFR6: GPIOA_AF_P6,
+    AFR7: GPIOA_AF_P7,
+    AFR8: GPIOA_AF_P8,
+    AFR9: GPIOA_AF_P9,
+    AFR10: GPIOA_AF_P10,
+    AFR11: GPIOA_AF_P11,
+    AFR12: GPIOA_AF_P12,
+    AFR13: GPIOA_AF_P13,
+    AFR14: GPIOA_AF_P14,
+    AFR15: GPIOA_AF_P15,
+};
+
+const GPIOB_AFR_t = packed struct(u64) {
+    AFR0: GPIOB_AF_P0,
+    AFR1: GPIOB_AF_P1,
+    AFR2: GPIOB_AF_P2,
+    AFR3: GPIOB_AF_P3,
+    AFR4: GPIOB_AF_P4,
+    AFR5: GPIOB_AF_P5,
+    AFR6: GPIOB_AF_P6,
+    AFR7: GPIOB_AF_P7,
+    AFR8: GPIOB_AF_P8,
+    AFR9: GPIOB_AF_P9,
+    AFR10: GPIOB_AF_P10,
+    AFR11: GPIOB_AF_P11,
+    AFR12: GPIOB_AF_P12,
+    AFR13: GPIOB_AF_P13,
+    AFR14: GPIOB_AF_P14,
+    AFR15: GPIOB_AF_P15,
+};
+
 const GPIO_t = packed struct {
     MODER: GPIO_MODER_t,
     OTYPER: GPIO_OTYPER_t,
@@ -202,6 +240,38 @@ const GPIO_t = packed struct {
     AFR: GPIO_AFR_t,
 };
 
+const GPIOA_t = packed struct {
+    MODER: GPIO_MODER_t,
+    OTYPER: GPIO_OTYPER_t,
+    _reserved0: u16,
+    OSPEEDR: GPIO_OSPEEDR_t,
+    PUPDR: GPIO_PUPDR_t,
+    IDR: GPIO_IDR_t,
+    _reserved1: u16,
+    ODR: GPIO_ODR_t,
+    _reserved2: u16,
+    BSRR: GPIO_BSRR_t,
+    LCKR: GPIO_LCKR_t,
+    _reserved3: u15,
+    AFR: GPIOA_AFR_t,
+};
+
+const GPIOB_t = packed struct {
+    MODER: GPIO_MODER_t,
+    OTYPER: GPIO_OTYPER_t,
+    _reserved0: u16,
+    OSPEEDR: GPIO_OSPEEDR_t,
+    PUPDR: GPIO_PUPDR_t,
+    IDR: GPIO_IDR_t,
+    _reserved1: u16,
+    ODR: GPIO_ODR_t,
+    _reserved2: u16,
+    BSRR: GPIO_BSRR_t,
+    LCKR: GPIO_LCKR_t,
+    _reserved3: u15,
+    AFR: GPIOB_AFR_t,
+};
+
 const GPIOA_BASE = 0x40020000;
 const GPIOB_BASE = 0x40020400;
 const GPIOC_BASE = 0x40020800;
@@ -209,8 +279,8 @@ const GPIOD_BASE = 0x40020C00;
 const GPIOE_BASE = 0x40021000;
 const GPIOH_BASE = 0x40021C00;
 
-pub const GPIOA: *volatile GPIO_t = @ptrFromInt(GPIOA_BASE);
-pub const GPIOB: *volatile GPIO_t = @ptrFromInt(GPIOB_BASE);
+pub const GPIOA: *volatile GPIOA_t = @ptrFromInt(GPIOA_BASE);
+pub const GPIOB: *volatile GPIOB_t = @ptrFromInt(GPIOB_BASE);
 pub const GPIOC: *volatile GPIO_t = @ptrFromInt(GPIOC_BASE);
 pub const GPIOD: *volatile GPIO_t = @ptrFromInt(GPIOD_BASE);
 pub const GPIOE: *volatile GPIO_t = @ptrFromInt(GPIOE_BASE);
@@ -356,5 +426,128 @@ pub const GPIOA_AF_P15 = enum(u4) {
     SPI1_NSS_I2S1_WS = 5,
     SPI3_NSS_I2S3_WS = 6,
     USART1_TX = 7,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P0 = enum(u4) {
+    TIM1_CH2N = 1,
+    TIM3_CH3 = 2,
+    SPI5_SCK_I2S5_CK = 6,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P1 = enum(u4) {
+    TIM1_CH3N = 1,
+    TIM3_CH4 = 2,
+    SPI5_NSS_I2S5_WS = 6,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P2 = enum(u4) {
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P3 = enum(u4) { JTDO_SWO = 0, TIM2_CH2 = 1, SPI1_SCK_I2S1_CK = 5, SPI3_SCK_I2S3_CK = 6, USART1_RX = 7, I2C2_SDA = 9, EVENT_OUT = 15 };
+
+pub const GPIOB_AF_P4 = enum(u4) {
+    JTRST = 0,
+    TIM3_CH1 = 2,
+    SPI1_MISO = 5,
+    SPI3_MISO = 6,
+    I2S3EXT_SD = 7,
+    I2C3_SDA = 9,
+    SDIO_D0 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P5 = enum(u4) {
+    TIM3_CH2 = 2,
+    I2C1_SMBA = 4,
+    SPI1_MOSI_I2S1_SD = 5,
+    SPI3_MOSI_I2S3_SD = 6,
+    SDIO_D3 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P6 = enum(u4) {
+    TIM4_CH1 = 2,
+    I2C1_SCL = 4,
+    USART1_TX = 7,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P7 = enum(u4) {
+    TIM4_CH2 = 2,
+    I2C1_SDA = 4,
+    USART1_RX = 7,
+    SDIO_D0 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P8 = enum(u4) {
+    TIM4_CH3 = 2,
+    TIM10_CH1 = 3,
+    I2C1_SCL = 4,
+    SPI5_MOSI_I2S5_SD = 6,
+    I2C3_SDA = 9,
+    SDIO_D4 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P9 = enum(u4) {
+    TIM4_CH4 = 2,
+    TIM11_CH1 = 3,
+    I2C1_SDA = 4,
+    SPI2_NSS_I2S2_WS = 5,
+    I2C2_SDA = 9,
+    SDIO_D5 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P10 = enum(u4) {
+    TIM2_CH3 = 1,
+    I2C2_SCL = 4,
+    SPI2_SCK_I2S2_CK = 5,
+    I2S3_MCK = 6,
+    SDIO_D7 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P11 = enum(u4) {
+    TIM2_CH4 = 1,
+    I2C2_SDA = 4,
+    I2S2_CKIN = 5,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P12 = enum(u4) {
+    TIM1_BKIN = 1,
+    I2C2_SMBA = 4,
+    SPI2_NSS_I2S2_WS = 5,
+    SPI4_NSS_I2S4_WS = 6,
+    SPI3_SCK_I2S3_CK = 7,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P13 = enum(u4) {
+    TIM1_CH1N = 1,
+    SPI2_SCK_I2S2_CK = 5,
+    SPI4_SCK_I2S4_CK = 6,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P14 = enum(u4) {
+    TIM1_CH2N = 1,
+    SPI2_MISO = 5,
+    I2S2ext_SD = 6,
+    SDIO_D6 = 12,
+    EVENT_OUT = 15,
+};
+
+pub const GPIOB_AF_P15 = enum(u4) {
+    RTC_50HZ = 0,
+    TIM1_CH3N = 1,
+    SPI2_MOSI_I2S2_SD = 5,
+    SDIO_CK = 12,
     EVENT_OUT = 15,
 };
