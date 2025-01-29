@@ -15,6 +15,13 @@ const GPIO_MODER_t = packed struct(u32) {
     MODER13: GPIO_MODE,
     MODER14: GPIO_MODE,
     MODER15: GPIO_MODE,
+
+    pub const GPIO_MODE = enum(u2) {
+        input = 0b00,
+        output = 0b01,
+        alternate_function = 0b10,
+        analog = 0b11,
+    };
 };
 
 const GPIO_OTYPER_t = packed struct(u16) {
@@ -34,25 +41,37 @@ const GPIO_OTYPER_t = packed struct(u16) {
     OT13: GPIO_OTYPE,
     OT14: GPIO_OTYPE,
     OT15: GPIO_OTYPE,
+
+    pub const GPIO_OTYPE = enum(u1) {
+        push_pull = 0b0,
+        open_drain = 0b1,
+    };
 };
 
 const GPIO_OSPEEDR_t = packed struct(u32) {
-    OSPEEDR0: u2,
-    OSPEEDR1: u2,
-    OSPEEDR2: u2,
-    OSPEEDR3: u2,
-    OSPEEDR4: u2,
-    OSPEEDR5: u2,
-    OSPEEDR6: u2,
-    OSPEEDR7: u2,
-    OSPEEDR8: u2,
-    OSPEEDR9: u2,
-    OSPEEDR10: u2,
-    OSPEEDR11: u2,
-    OSPEEDR12: u2,
-    OSPEEDR13: u2,
-    OSPEEDR14: u2,
-    OSPEEDR15: u2,
+    OSPEEDR0: GPIO_OSPEED,
+    OSPEEDR1: GPIO_OSPEED,
+    OSPEEDR2: GPIO_OSPEED,
+    OSPEEDR3: GPIO_OSPEED,
+    OSPEEDR4: GPIO_OSPEED,
+    OSPEEDR5: GPIO_OSPEED,
+    OSPEEDR6: GPIO_OSPEED,
+    OSPEEDR7: GPIO_OSPEED,
+    OSPEEDR8: GPIO_OSPEED,
+    OSPEEDR9: GPIO_OSPEED,
+    OSPEEDR10: GPIO_OSPEED,
+    OSPEEDR11: GPIO_OSPEED,
+    OSPEEDR12: GPIO_OSPEED,
+    OSPEEDR13: GPIO_OSPEED,
+    OSPEEDR14: GPIO_OSPEED,
+    OSPEEDR15: GPIO_OSPEED,
+
+    pub const GPIO_OSPEED = enum(u2) {
+        low = 0b00,
+        medium = 0b01,
+        fast = 0b10,
+        high = 0b11,
+    };
 };
 
 const GPIO_PUPDR_t = packed struct(u32) {
@@ -72,6 +91,12 @@ const GPIO_PUPDR_t = packed struct(u32) {
     PUPDR13: GPIO_PUPD,
     PUPDR14: GPIO_PUPD,
     PUPDR15: GPIO_PUPD,
+
+    pub const GPIO_PUPD = enum(u2) {
+        no_pullup_pulldown = 0b00,
+        pullup = 0b01,
+        pulldown = 0b10,
+    };
 };
 
 const GPIO_IDR_t = packed struct(u16) {
@@ -660,21 +685,3 @@ pub const GPIOB: *volatile GPIOB_t = @ptrFromInt(GPIOB_BASE);
 pub const GPIOC: *volatile GPIOC_t = @ptrFromInt(GPIOC_BASE);
 pub const GPIOD: *volatile GPIO_t = @ptrFromInt(GPIOD_BASE);
 pub const GPIOE: *volatile GPIO_t = @ptrFromInt(GPIOE_BASE);
-
-pub const GPIO_MODE = enum(u2) {
-    input = 0b00,
-    output = 0b01,
-    alternate_function = 0b10,
-    analog = 0b11,
-};
-
-pub const GPIO_OTYPE = enum(u1) {
-    push_pull = 0b0,
-    open_drain = 0b1,
-};
-
-pub const GPIO_PUPD = enum(u2) {
-    no_pullup_pulldown = 0b00,
-    pullup = 0b01,
-    pulldown = 0b10,
-};
