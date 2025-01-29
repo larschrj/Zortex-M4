@@ -609,6 +609,218 @@ const GPIOC_AFR_t = packed struct(u64) {
     pub const GPIOC_AF_P15 = enum(u4) {};
 };
 
+const GPIOD_AFR_t = packed struct(u64) {
+    AFR0: GPIOD_AF_P0,
+    AFR1: GPIOD_AF_P1,
+    AFR2: GPIOD_AF_P2,
+    AFR3: GPIOD_AF_P3,
+    AFR4: GPIOD_AF_P4,
+    AFR5: GPIOD_AF_P5,
+    AFR6: GPIOD_AF_P6,
+    AFR7: GPIOD_AF_P7,
+    AFR8: GPIOD_AF_P8,
+    AFR9: GPIOD_AF_P9,
+    AFR10: GPIOD_AF_P10,
+    AFR11: GPIOD_AF_P11,
+    AFR12: GPIOD_AF_P12,
+    AFR13: GPIOD_AF_P13,
+    AFR14: GPIOD_AF_P14,
+    AFR15: GPIOD_AF_P15,
+
+    pub const GPIOD_AF_P0 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P1 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P2 = enum(u4) {
+        TIM3_ETR = 2,
+        SDIO_CMD = 12,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P3 = enum(u4) {
+        SPI2_SCK_I2S2_CK = 5,
+        USART2_CTS = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P4 = enum(u4) {
+        USART2_RTS = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P5 = enum(u4) {
+        USART2_TX = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P6 = enum(u4) {
+        SPI3_MOSI_I2S3_SD = 5,
+        USART2_RX = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P7 = enum(u4) {
+        USART2_CK = 7,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P8 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P9 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P10 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P11 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P12 = enum(u4) {
+        TIM4_CH1 = 2,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P13 = enum(u4) {
+        TIM4_CH2 = 2,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P14 = enum(u4) {
+        TIM4_CH3 = 2,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOD_AF_P15 = enum(u4) {
+        TIM4_CH4 = 2,
+        EVENT_OUT = 15,
+    };
+};
+
+const GPIOE_AFR_t = packed struct(u64) {
+    AFR0: GPIOE_AF_P0,
+    AFR1: GPIOE_AF_P1,
+    AFR2: GPIOE_AF_P2,
+    AFR3: GPIOE_AF_P3,
+    AFR4: GPIOE_AF_P4,
+    AFR5: GPIOE_AF_P5,
+    AFR6: GPIOE_AF_P6,
+    AFR7: GPIOE_AF_P7,
+    AFR8: GPIOE_AF_P8,
+    AFR9: GPIOE_AF_P9,
+    AFR10: GPIOE_AF_P10,
+    AFR11: GPIOE_AF_P11,
+    AFR12: GPIOE_AF_P12,
+    AFR13: GPIOE_AF_P13,
+    AFR14: GPIOE_AF_P14,
+    AFR15: GPIOE_AF_P15,
+
+    pub const GPIOE_AF_P0 = enum(u4) {
+        TIM4_ETR = 2,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P1 = enum(u4) {
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P2 = enum(u4) {
+        TRACECLK = 0,
+        SPI4_SCK_I2S4_CK = 5,
+        SPI5_SCK_I2S5_CK = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P3 = enum(u4) {
+        TRACED0 = 0,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P4 = enum(u4) {
+        TRACED1 = 0,
+        SPI4_NSS_I2S4_WS = 5,
+        SPI5_NSS_I2S5_WS = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P5 = enum(u4) {
+        TRACED2 = 0,
+        TIM9_CH1 = 3,
+        SPI4_MISO = 5,
+        SPI5_MISO = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P6 = enum(u4) {
+        TRACED3 = 0,
+        TIM9_CH2 = 3,
+        SPI4_MOSI_I2S4_SD = 5,
+        SPI5_MOSI_I2S5_SD = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P7 = enum(u4) {
+        TIM1_ETR = 1,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P8 = enum(u4) {
+        TIM1_CH1N = 1,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P9 = enum(u4) {
+        TIM1_CH1 = 1,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P10 = enum(u4) {
+        TIM1_CH2N = 1,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P11 = enum(u4) {
+        TIM1_CH2 = 1,
+        SPI4_NSS_I2S4_WS = 5,
+        SPI5_NSS_I2S5_WS = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P12 = enum(u4) {
+        TIM1_CH3N = 1,
+        SPI4_SCK_I2S4_CK = 5,
+        SPI5_SCK_I2S5_CK = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P13 = enum(u4) {
+        TIM1_CH3 = 1,
+        SPI4_MISO = 5,
+        SPI5_MISO = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P14 = enum(u4) {
+        TIM1_CH4 = 1,
+        SPI4_MOSI_I2S4_SD = 5,
+        SPI5_MOSI_I2S5_SD = 6,
+        EVENT_OUT = 15,
+    };
+
+    pub const GPIOE_AF_P15 = enum(u4) {
+        TIM1_BKIN = 1,
+        EVENT_OUT = 15,
+    };
+};
+
 const GPIO_t = packed struct {
     MODER: GPIO_MODER_t,
     OTYPER: GPIO_OTYPER_t,
@@ -671,6 +883,22 @@ const GPIOC_t = packed struct {
     LCKR: GPIO_LCKR_t,
     _reserved3: u15,
     AFR: GPIOC_AFR_t,
+};
+
+const GPIOD_t = packed struct {
+    MODER: GPIO_MODER_t,
+    OTYPER: GPIO_OTYPER_t,
+    _reserved0: u16,
+    OSPEEDR: GPIO_OSPEEDR_t,
+    PUPDR: GPIO_PUPDR_t,
+    IDR: GPIO_IDR_t,
+    _reserved1: u16,
+    ODR: GPIO_ODR_t,
+    _reserved2: u16,
+    BSRR: GPIO_BSRR_t,
+    LCKR: GPIO_LCKR_t,
+    _reserved3: u15,
+    AFR: GPIOD_AFR_t,
 };
 
 const GPIOA_BASE = 0x40020000;
