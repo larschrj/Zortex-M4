@@ -927,5 +927,5 @@ const GPIOH_BASE = 0x40021C00;
 pub const GPIOA: *volatile GPIOA_t = @ptrFromInt(GPIOA_BASE);
 pub const GPIOB: *volatile GPIOB_t = @ptrFromInt(GPIOB_BASE);
 pub const GPIOC: *volatile GPIOC_t = @ptrFromInt(GPIOC_BASE);
-pub const GPIOD: *volatile GPIO_t = @ptrFromInt(GPIOD_BASE);
-pub const GPIOE: *volatile GPIO_t = @ptrFromInt(GPIOE_BASE);
+pub const GPIOD: *volatile GPIOD_t = @ptrFromInt(GPIOD_BASE);
+pub const GPIOE: *volatile GPIOE_t = @ptrFromInt(GPIOE_BASE);
