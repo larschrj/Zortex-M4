@@ -901,6 +901,22 @@ const GPIOD_t = packed struct {
     AFR: GPIOD_AFR_t,
 };
 
+const GPIOE_t = packed struct {
+    MODER: GPIO_MODER_t,
+    OTYPER: GPIO_OTYPER_t,
+    _reserved0: u16,
+    OSPEEDR: GPIO_OSPEEDR_t,
+    PUPDR: GPIO_PUPDR_t,
+    IDR: GPIO_IDR_t,
+    _reserved1: u16,
+    ODR: GPIO_ODR_t,
+    _reserved2: u16,
+    BSRR: GPIO_BSRR_t,
+    LCKR: GPIO_LCKR_t,
+    _reserved3: u15,
+    AFR: GPIOE_AFR_t,
+};
+
 const GPIOA_BASE = 0x40020000;
 const GPIOB_BASE = 0x40020400;
 const GPIOC_BASE = 0x40020800;
