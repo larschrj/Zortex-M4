@@ -1,5 +1,5 @@
-const RCC = @import("STM32F411RE.zig").RCC;
-const GPIO = @import("STM32F411RE.zig").GPIO;
+const RCC = @import("STM32F411RE_RCC.zig");
+const GPIO = @import("STM32F411RE_GPIO.zig");
 
 export var a: u32 = 3;
 

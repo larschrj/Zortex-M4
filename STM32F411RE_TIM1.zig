@@ -1,6 +1,3 @@
-pub const GPIO = @import("STM32F411RE_GPIO.zig");
-pub const RCC = @import("STM32F411RE_RCC.zig");
-
 const TIMx_CR1_t = packed struct(u32) {
     CEN: u1,
     UDIS: u1,
