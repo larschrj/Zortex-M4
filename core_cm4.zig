@@ -131,5 +131,6 @@ pub fn enable_fpu() void {
     SCB.CPACR.CP10 = .full_access;
     SCB.CPACR.CP11 = .full_access;
 
+    // reset instruction and data pipelines after enabling fpu
     asm volatile ("DSB\nISB\n");
 }
