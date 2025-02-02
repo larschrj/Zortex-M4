@@ -37,19 +37,19 @@ const CONTROL_t = packed struct {
 };
 
 const NVIC_t = packed struct {
-    ISER: [8]u32,
-    _reserved0: [24]u32,
-    ICER: [8]u32,
-    _reserved1: [24]u32,
-    ISPR: [8]u32,
-    _reserved2: [24]u32,
-    ICPR: [8]u32,
-    _reserved3: [24]u32,
-    IABR: [8]u32,
-    _reserved4: [56]u32,
+    ISER: u240,
+    _reserved0: [49]u16,
+    ICER: u240,
+    _reserved1: [49]u16,
+    ISPR: u240,
+    _reserved2: [49]u16,
+    ICPR: u240,
+    _reserved3: [49]u16,
+    IABR: u240,
+    _reserved4: [113]u16,
     IP: [240]u8,
     _reserved5: [644]u32,
-    STIR: u32,
+    STIR: u8,
 };
 
 const CPACR_t = packed struct(u32) {
