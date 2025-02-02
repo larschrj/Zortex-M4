@@ -1,9 +1,12 @@
+const core_cm4 = @import("core_cm4.zig");
 const RCC = @import("STM32F411RE_RCC.zig");
 const GPIO = @import("STM32F411RE_GPIO.zig");
 
 export var a: u32 = 3;
 
 export fn main() void {
+    core_cm4.enable_fpu();
+
     RCC.RCC.RCC_AHB1ENR.GPIOAEN |= 0x1;
 
     GPIO.GPIOA.MODER.MODER5 = .output;

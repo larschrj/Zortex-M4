@@ -52,6 +52,19 @@ const NVIC_t = packed struct {
     STIR: u32,
 };
 
+const CPACR_t = packed struct(u32) {
+    _reserved0: u20,
+    CP10: coprocessor_access,
+    CP11: coprocessor_access,
+    _reserved1: u8,
+
+    pub const coprocessor_access = enum(u2) {
+        access_denied = 0b00,
+        privileged_access = 0b01,
+        full_access = 0b11,
+    };
+};
+
 const SCB_t = packed struct {
     CPUID: u32, // CPUID Base Register
     ICSR: u32, // Interrupt Control and State Register
@@ -59,7 +72,7 @@ const SCB_t = packed struct {
     AIRCR: u32, // Application Interrupt and Reset Control Register
     SCR: u32, // System Control Register
     CCR: u32, // Configuration Control Register
-    SHP: [12]u8, // System Handlers Priority Registers (4-7, 8-11, 12-15)
+    SHP: u96, // System Handlers Priority Registers (4-7, 8-11, 12-15)
     SHCSR: u32, // System Handler Control and State Register
     CFSR: u32, // Configurable Fault Status Register
     HFSR: u32, // HardFault Status Register
@@ -67,13 +80,13 @@ const SCB_t = packed struct {
     MMFAR: u32, // MemManage Fault Address Register
     BFAR: u32, // BusFault Address Register
     AFSR: u32, // Auxiliary Fault Status Register
-    PFR: [2]u32, // Processor Feature Register
+    PFR: u64, // Processor Feature Register
     DFR: u32, // Debug Feature Register
     ADR: u32, // Auxiliary Feature Register
-    MMFR: [4]u32, // Memory Model Feature Register
-    ISAR: [5]u32, // Instruction Set Attributes Register
-    _reserved0: [5]u32,
-    CPACR: u32, // Coprocessor Access Control Register
+    MMFR: u128, // Memory Model Feature Register
+    ISAR: u160, // Instruction Set Attributes Register
+    _reserved0: u160,
+    CPACR: CPACR_t, // Coprocessor Access Control Register
 };
 
 const SCnSCB_t = packed struct {
@@ -113,3 +126,10 @@ const SCnSCB: *volatile SCnSCB_t = @ptrFromInt(SCS_BASE);
 const SCB: *volatile SCB_t = @ptrFromInt(SCB_BASE);
 const SysTick: *volatile SysTick_t = @ptrFromInt(SysTick_BASE);
 const NVIC: *volatile NVIC_t = @ptrFromInt(NVIC_BASE);
+
+pub fn enable_fpu() void {
+    SCB.CPACR.CP10 = .full_access;
+    SCB.CPACR.CP11 = .full_access;
+
+    asm volatile ("DSB\nISB\n");
+}
