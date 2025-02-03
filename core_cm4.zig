@@ -1,3 +1,5 @@
+const IRQ_t = @import("stm32f411xe.zig").IRQ_t;
+
 const APSR_t = packed struct {
     _reserved0: u16,
     GE: u4,
@@ -127,10 +129,27 @@ const SCB: *volatile SCB_t = @ptrFromInt(SCB_BASE);
 const SysTick: *volatile SysTick_t = @ptrFromInt(SysTick_BASE);
 const NVIC: *volatile NVIC_t = @ptrFromInt(NVIC_BASE);
 
+pub inline fn DSB() void {
+    asm volatile ("DSB\n");
+}
+
+pub inline fn ISB() void {
+    asm volatile ("ISB\n");
+}
+
 pub fn enable_fpu() void {
     SCB.CPACR.CP10 = .full_access;
     SCB.CPACR.CP11 = .full_access;
 
     // reset instruction and data pipelines after enabling fpu
-    asm volatile ("DSB\n ISB\n");
+    DSB();
+    ISB();
+}
+
+pub fn enable_irq(irq_number: IRQ_t) void {
+    NVIC.ISER |= 0b1 << @intFromEnum(irq_number);
+}
+
+pub fn disable_irq(irq_number: IRQ_t) void {
+    NVIC.ICER |= 0b1 << @intFromEnum(irq_number);
 }
