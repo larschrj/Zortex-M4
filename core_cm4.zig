@@ -155,12 +155,18 @@ pub fn disable_irq() void {
 }
 
 pub fn set_primask(val: u32) void {
-    asm volatile (
-        \\mov r0, %0
-        \\msr primask, r0
-        : // No output operands
-        : [val] "r" (val), // Input operand: level in register 'r'
-        : "r0", "memory" // Clobber list: important for correct optimization
+    asm volatile ("msr primask, r0"
+        :
+        : [val] "{r0}" (val),
+        : "r0"
+    );
+}
+
+pub fn get_primask() u32 {
+    return asm volatile ("mrs r0, primask"
+        : [ret] "=r0" (-> u32),
+        :
+        : "r0"
     );
 }
 

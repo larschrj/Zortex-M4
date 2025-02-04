@@ -6,7 +6,7 @@ export var a: u32 = 3;
 
 export fn main() void {
     core_cm4.enable_fpu();
-    core_cm4.set_primask(@as(u32, 0));
+    core_cm4.set_primask(3);
 
     RCC.RCC.RCC_AHB1ENR.GPIOAEN |= 0x1;
 
