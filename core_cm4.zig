@@ -146,10 +146,28 @@ pub fn enable_fpu() void {
     ISB();
 }
 
-pub fn enable_irq(irq_number: IRQ_t) void {
+pub fn enable_irq() void {
+    asm volatile ("CPSIE I");
+}
+
+pub fn disable_irq() void {
+    asm volatile ("CPSID I");
+}
+
+pub fn set_primask(val: u32) void {
+    asm volatile (
+        \\mov r0, %0
+        \\msr primask, r0
+        : // No output operands
+        : [val] "r" (val), // Input operand: level in register 'r'
+        : "r0", "memory" // Clobber list: important for correct optimization
+    );
+}
+
+pub fn NVIC_enable_irq_number(irq_number: IRQ_t) void {
     NVIC.ISER |= 0b1 << @intFromEnum(irq_number);
 }
 
-pub fn disable_irq(irq_number: IRQ_t) void {
+pub fn NVIC_disable_irq_number(irq_number: IRQ_t) void {
     NVIC.ICER |= 0b1 << @intFromEnum(irq_number);
 }
