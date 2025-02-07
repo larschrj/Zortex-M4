@@ -28,16 +28,6 @@ pub fn build(b: *std.Build) void {
     });
     exe.entry = .{ .symbol_name = "Reset_Handler" };
 
-    const main = b.addObject(.{
-        .name = "main",
-        .target = target,
-        .optimize = mode,
-        .root_source_file = b.path("./main.zig"),
-        .single_threaded = true,
-        .unwind_tables = .none,
-    });
-    exe.addObject(main);
-
     exe.setLinkerScript(b.path("./STM32F411RETX_FLASH.ld"));
 
     b.default_step.dependOn(&exe.step);
