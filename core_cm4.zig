@@ -38,19 +38,19 @@ const CONTROL_t = packed struct {
     _reserved0: u29,
 };
 
-const NVIC_t = packed struct {
+const NVIC_t = struct {
     ISER: u240,
-    _reserved0: [49]u16,
+    _reserved0: u784,
     ICER: u240,
-    _reserved1: [49]u16,
+    _reserved1: u784,
     ISPR: u240,
-    _reserved2: [49]u16,
+    _reserved2: u784,
     ICPR: u240,
-    _reserved3: [49]u16,
+    _reserved3: u784,
     IABR: u240,
-    _reserved4: [113]u16,
-    IP: [240]u8,
-    _reserved5: [644]u32,
+    _reserved4: u1808,
+    IP: u1920,
+    _reserved5: u20608,
     STIR: u8,
 };
 
@@ -170,10 +170,26 @@ pub fn get_primask() u32 {
     );
 }
 
-pub fn NVIC_enable_irq_number(irq_number: IRQ_t) void {
-    NVIC.ISER |= 0b1 << @intFromEnum(irq_number);
+const NVICError = error{
+    NegativeIRQEnable,
+};
+
+pub fn NVIC_enable_irq_number(irq_number: IRQ_t) NVICError!void {
+    const irq_value = @intFromEnum(irq_number);
+    if (irq_value >= 0) {
+        const shift: u8 = @intCast(irq_value);
+        NVIC.ISER |= @as(u240, 0b1) << shift;
+    } else {
+        return NVICError.NegativeIRQEnable;
+    }
 }
 
-pub fn NVIC_disable_irq_number(irq_number: IRQ_t) void {
-    NVIC.ICER |= 0b1 << @intFromEnum(irq_number);
+pub fn NVIC_disable_irq_number(irq_number: IRQ_t) NVICError!void {
+    const irq_value = @intFromEnum(irq_number);
+    if (irq_value >= 0) {
+        const shift: u8 = @intCast(irq_value);
+        NVIC.ICER |= @as(u240, 0b1) << shift;
+    } else {
+        return NVICError.NegativeIRQEnable;
+    }
 }

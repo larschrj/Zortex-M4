@@ -1,4 +1,4 @@
-pub const IRQ_t = enum(u32) {
+pub const IRQ_t = enum(i16) {
     // Cortex-M4 Processor Exceptions Numbers
     NonMaskableInt_IRQn = -14, // 2 Non Maskable Interrupt
     MemoryManagement_IRQn = -12, // 4 Cortex-M4 Memory Management Interrupt
