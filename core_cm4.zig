@@ -124,10 +124,10 @@ const SCB_BASE = SCS_BASE + 0x0D00; // System Control Block Base Address
 const MPU_BASE = SCS_BASE + 0x0D90; // Memory Protection Unit Base Address
 const FPU_BASE = SCS_BASE + 0x0F30; // Floating Point Unit Base Address
 
-const SCnSCB: *volatile SCnSCB_t = @ptrFromInt(SCS_BASE);
-const SCB: *volatile SCB_t = @ptrFromInt(SCB_BASE);
-const SysTick: *volatile SysTick_t = @ptrFromInt(SysTick_BASE);
-const NVIC: *volatile NVIC_t = @ptrFromInt(NVIC_BASE);
+pub const SCnSCB: *volatile SCnSCB_t = @ptrFromInt(SCS_BASE);
+pub const SCB: *volatile SCB_t = @ptrFromInt(SCB_BASE);
+pub const SysTick: *volatile SysTick_t = @ptrFromInt(SysTick_BASE);
+pub const NVIC: *volatile NVIC_t = @ptrFromInt(NVIC_BASE);
 
 pub inline fn DSB() void {
     asm volatile ("DSB\n");
@@ -170,26 +170,26 @@ pub fn get_primask() u32 {
     );
 }
 
-const NVICError = error{
+pub const NVIC_Error = error{
     NegativeIRQEnable,
 };
 
-pub fn NVIC_enable_irq_number(irq_number: IRQ_t) NVICError!void {
+pub fn enable_irq_number(irq_number: IRQ_t) NVIC_Error!void {
     const irq_value = @intFromEnum(irq_number);
     if (irq_value >= 0) {
         const shift: u8 = @intCast(irq_value);
         NVIC.ISER |= @as(u240, 0b1) << shift;
     } else {
-        return NVICError.NegativeIRQEnable;
+        return NVIC_Error.NegativeIRQEnable;
     }
 }
 
-pub fn NVIC_disable_irq_number(irq_number: IRQ_t) NVICError!void {
+pub fn disable_irq_number(irq_number: IRQ_t) NVIC_Error!void {
     const irq_value = @intFromEnum(irq_number);
     if (irq_value >= 0) {
         const shift: u8 = @intCast(irq_value);
         NVIC.ICER |= @as(u240, 0b1) << shift;
     } else {
-        return NVICError.NegativeIRQEnable;
+        return NVIC_Error.NegativeIRQEnable;
     }
 }

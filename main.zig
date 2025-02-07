@@ -7,7 +7,7 @@ export var a: u32 = 3;
 export fn main() void {
     core_cm4.enable_fpu();
     core_cm4.set_primask(3);
-    core_cm4.NVIC_enable_irq_number(.TIM1_CC_IRQn) catch unreachable;
+    core_cm4.enable_irq_number(.TIM1_CC_IRQn) catch unreachable;
 
     RCC.RCC.RCC_AHB1ENR.GPIOAEN |= 0x1;
 
