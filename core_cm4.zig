@@ -38,7 +38,7 @@ const CONTROL_t = packed struct {
     _reserved0: u29,
 };
 
-const NVIC_t = struct {
+const NVIC_t = packed struct {
     ISER: u240,
     _reserved0: u784,
     ICER: u240,
