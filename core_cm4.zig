@@ -38,19 +38,19 @@ const CONTROL_t = packed struct {
     _reserved0: u29,
 };
 
-const NVIC_t = packed struct {
-    ISER: u240,
-    _reserved0: u784,
-    ICER: u240,
-    _reserved1: u784,
-    ISPR: u240,
-    _reserved2: u784,
-    ICPR: u240,
-    _reserved3: u784,
-    IABR: u240,
-    _reserved4: u1808,
-    IP: u1920,
-    _reserved5: u20608,
+const NVIC_t = extern struct {
+    ISER: [8]u32,
+    _reserved0: [24]u32,
+    ICER: [8]u32,
+    _reserved1: [24]u32,
+    ISPR: [8]u32,
+    _reserved2: [24]u32,
+    ICPR: [8]u32,
+    _reserved3: [24]u32,
+    IABR: [8]u32,
+    _reserved4: [56]u32,
+    IP: [240]u8,
+    _reserved5: [644]u32,
     STIR: u8,
 };
 
@@ -137,7 +137,7 @@ pub inline fn ISB() void {
     asm volatile ("ISB\n");
 }
 
-pub fn enable_fpu() void {
+pub fn enableFpu() void {
     SCB.CPACR.CP10 = .full_access;
     SCB.CPACR.CP11 = .full_access;
 
@@ -146,15 +146,15 @@ pub fn enable_fpu() void {
     ISB();
 }
 
-pub fn enable_irq() void {
+pub fn enableIrq() void {
     asm volatile ("CPSIE I");
 }
 
-pub fn disable_irq() void {
+pub fn disableIrq() void {
     asm volatile ("CPSID I");
 }
 
-pub fn set_primask(val: u32) void {
+pub fn setPrimask(val: u32) void {
     asm volatile ("msr primask, r0"
         :
         : [val] "{r0}" (val),
@@ -162,7 +162,7 @@ pub fn set_primask(val: u32) void {
     );
 }
 
-pub fn get_primask() u32 {
+pub fn getPrimask() u32 {
     return asm volatile ("mrs r0, primask"
         : [ret] "=r0" (-> u32),
         :
@@ -170,26 +170,37 @@ pub fn get_primask() u32 {
     );
 }
 
-pub const NVIC_Error = error{
-    NegativeIRQEnable,
+pub const NvicError = error{
+    NegativeIrqEnable,
+    IrqNumberTooLarge,
 };
 
-pub fn enable_irq_number(irq_number: IRQ_t) NVIC_Error!void {
-    const irq_value = @intFromEnum(irq_number);
-    if (irq_value >= 0) {
-        const shift: u8 = @intCast(irq_value);
-        NVIC.ISER |= @as(u240, 0b1) << shift;
+pub fn enableIrqNumber(irq: IRQ_t) NvicError!void {
+    const irqValue = @intFromEnum(irq);
+
+    if (irqValue < 0) {
+        return NvicError.NegativeIrqEnable;
+    } else if (irqValue > 240) {
+        return NvicError.IrqNumberTooLarge;
     } else {
-        return NVIC_Error.NegativeIRQEnable;
+        const irqNumber: u8 = @intCast(irqValue);
+        const arrayIndex: u8 = irqNumber / 32;
+        const bitShift: u5 = @truncate(irqNumber % 32);
+        NVIC.ISER[arrayIndex] |= @as(u32, 0b1) << bitShift;
     }
 }
 
-pub fn disable_irq_number(irq_number: IRQ_t) NVIC_Error!void {
-    const irq_value = @intFromEnum(irq_number);
-    if (irq_value >= 0) {
-        const shift: u8 = @intCast(irq_value);
-        NVIC.ICER |= @as(u240, 0b1) << shift;
+pub fn disableIrqNumber(irq: IRQ_t) NvicError!void {
+    const irqValue = @intFromEnum(irq);
+
+    if (irqValue < 0) {
+        return NvicError.NegativeIrqEnable;
+    } else if (irqValue > 240) {
+        return NvicError.IrqNumberTooLarge;
     } else {
-        return NVIC_Error.NegativeIRQEnable;
+        const irqNumber: u8 = @intCast(irqValue);
+        const arrayIndex: u8 = irqNumber / 32;
+        const bitShift: u5 = @truncate(irqNumber % 32);
+        NVIC.ICER[arrayIndex] |= @as(u32, 0b1) << bitShift;
     }
 }

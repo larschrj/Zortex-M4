@@ -5,9 +5,9 @@ const GPIO = @import("STM32F411RE_GPIO.zig");
 export var a: u32 = 3;
 
 pub fn main() void {
-    core_cm4.enable_fpu();
-    core_cm4.set_primask(3);
-    core_cm4.enable_irq_number(.TIM1_CC_IRQn) catch unreachable;
+    core_cm4.enableFpu();
+    core_cm4.enableIrq();
+    core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
 
     RCC.RCC.RCC_AHB1ENR.GPIOAEN |= 0x1;
 
