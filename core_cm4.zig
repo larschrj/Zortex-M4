@@ -1,63 +1,63 @@
 const IRQ_t = @import("stm32f411xe.zig").IRQ_t;
 
-const APSR_t = packed struct {
+const apsr_t = packed struct {
     _reserved0: u16,
-    GE: u4,
+    ge: u4,
     _reserved1: u7,
-    Q: u1,
-    V: u1,
-    C: u1,
-    Z: u1,
-    N: u1,
+    q: u1,
+    v: u1,
+    c: u1,
+    z: u1,
+    n: u1,
 };
 
-const IPSR_t = packed struct {
-    ISR: u9,
+const ipsr_t = packed struct {
+    isr: u9,
     _reserved0: u32,
 };
 
-const xPSR_t = packed struct {
-    ISR: u9,
+const xpsr_t = packed struct {
+    isr: u9,
     _reserved0: u1,
-    ICI_IT_1: u6,
-    GE: u4,
+    ici_it_1: u6,
+    ge: u4,
     _reserved1: u4,
-    T: u1,
-    ICI_IT_2: u2,
-    Q: u1,
-    V: u1,
-    C: u1,
-    Z: u1,
-    N: u1,
+    t: u1,
+    ici_it_2: u2,
+    q: u1,
+    v: u1,
+    c: u1,
+    z: u1,
+    n: u1,
 };
 
-const CONTROL_t = packed struct {
-    nPRIV: u1,
-    SPSEL: u1,
-    FPCA: u1,
+const control_t = packed struct {
+    npriv: u1,
+    spsel: u1,
+    fpca: u1,
     _reserved0: u29,
 };
 
-const NVIC_t = extern struct {
-    ISER: [8]u32,
+const nvic_t = extern struct {
+    iser: [8]u32,
     _reserved0: [24]u32,
-    ICER: [8]u32,
+    icer: [8]u32,
     _reserved1: [24]u32,
-    ISPR: [8]u32,
+    ispr: [8]u32,
     _reserved2: [24]u32,
-    ICPR: [8]u32,
+    icpr: [8]u32,
     _reserved3: [24]u32,
-    IABR: [8]u32,
+    iabr: [8]u32,
     _reserved4: [56]u32,
-    IP: [240]u8,
+    ip: [240]u8,
     _reserved5: [644]u32,
-    STIR: u8,
+    stir: u8,
 };
 
-const CPACR_t = packed struct(u32) {
+const cpacr_t = packed struct(u32) {
     _reserved0: u20,
-    CP10: coprocessor_access,
-    CP11: coprocessor_access,
+    cp10: coprocessor_access,
+    cp11: coprocessor_access,
     _reserved1: u8,
 
     pub const coprocessor_access = enum(u2) {
@@ -67,67 +67,67 @@ const CPACR_t = packed struct(u32) {
     };
 };
 
-const SCB_t = packed struct {
-    CPUID: u32, // CPUID Base Register
-    ICSR: u32, // Interrupt Control and State Register
-    VTOR: u32, // Vector Table Offset Register
-    AIRCR: u32, // Application Interrupt and Reset Control Register
-    SCR: u32, // System Control Register
-    CCR: u32, // Configuration Control Register
-    SHP: u96, // System Handlers Priority Registers (4-7, 8-11, 12-15)
-    SHCSR: u32, // System Handler Control and State Register
-    CFSR: u32, // Configurable Fault Status Register
-    HFSR: u32, // HardFault Status Register
-    DFSR: u32, // Debug Fault Status Register
-    MMFAR: u32, // MemManage Fault Address Register
-    BFAR: u32, // BusFault Address Register
-    AFSR: u32, // Auxiliary Fault Status Register
-    PFR: u64, // Processor Feature Register
-    DFR: u32, // Debug Feature Register
-    ADR: u32, // Auxiliary Feature Register
-    MMFR: u128, // Memory Model Feature Register
-    ISAR: u160, // Instruction Set Attributes Register
+const scb_t = packed struct {
+    cpuid: u32, // cpuid base register
+    icsr: u32, // interrupt control and state register
+    vtor: u32, // vector table offset register
+    aircr: u32, // application interrupt and reset control register
+    scr: u32, // system control register
+    ccr: u32, // configuration control register
+    shp: u96, // system handlers priority registers (4-7, 8-11, 12-15)
+    shcsr: u32, // system handler control and state register
+    cfsr: u32, // configurable fault status register
+    hfsr: u32, // hardfault status register
+    dfsr: u32, // debug fault status register
+    mmfar: u32, // memmanage fault address register
+    bfar: u32, // busfault address register
+    afsr: u32, // auxiliary fault status register
+    pfr: u64, // processor feature register
+    dfr: u32, // debug feature register
+    adr: u32, // auxiliary feature register
+    mmfr: u128, // memory model feature register
+    isar: u160, // instruction set attributes register
     _reserved0: u160,
-    CPACR: CPACR_t, // Coprocessor Access Control Register
+    cpacr: cpacr_t, // coprocessor access control register
 };
 
-const SCnSCB_t = packed struct {
+const scnscb_t = packed struct {
     _reserved0: u32,
-    ICTR: u32, // (R/ )  Interrupt Controller Type Register
-    ACTLR: u32, // (R/W)  Auxiliary Control Register
+    ictr: u32, // (r/ )  interrupt controller type register
+    actlr: u32, // (r/w)  auxiliary control register
 };
 
-const SysTick_t = packed struct {
-    CTRL: u32,
-    LOAD: u32,
-    VAL: u32,
-    CALIB: u32,
+const systick_t = packed struct {
+    ctrl: u32,
+    load: u32,
+    val: u32,
+    calib: u32,
 };
 
-const FPU_t = packed struct {
+const fpu_t = packed struct {
     _reserved0: u32,
-    FPCCR: u32, // (R/W)  Floating-Point Context Control Register
-    FPCAR: u32, // (R/W)  Floating-Point Context Address Register
-    FPDSCR: u32, // (R/W)  Floating-Point Default Status Control Register
-    MVFR0: u32, // (R/ )  Media and FP Feature Register 0
-    MVFR1: u32, // (R/ )  Media and FP Feature Register 1
-    MVFR2: u32, // (R/ )  Media and FP Feature Register 2
+    fpccr: u32, // (r/w)  floating-point context control register
+    fpcar: u32, // (r/w)  floating-point context address register
+    fpdscr: u32, // (r/w)  floating-point default status control register
+    mvfr0: u32, // (r/ )  media and fp feature register 0
+    mvfr1: u32, // (r/ )  media and fp feature register 1
+    mvfr2: u32, // (r/ )  media and fp feature register 2
 };
 
-const SCS_BASE = 0xE000E000; // System Control Space Base Address
-const ITM_BASE = 0xE0000000; // ITM Base Address
-const DWT_BASE = 0xE0001000; // DWT Base Address
-const TPI_BASE = 0xE0040000; // TPI Base Address
-const SysTick_BASE = SCS_BASE + 0x0010; // SysTick Base Address
-const NVIC_BASE = SCS_BASE + 0x0100; // NVIC Base Address
-const SCB_BASE = SCS_BASE + 0x0D00; // System Control Block Base Address
-const MPU_BASE = SCS_BASE + 0x0D90; // Memory Protection Unit Base Address
-const FPU_BASE = SCS_BASE + 0x0F30; // Floating Point Unit Base Address
+const scs_base = 0xe000e000; // system control space base address
+const itm_base = 0xe0000000; // itm base address
+const dwt_base = 0xe0001000; // dwt base address
+const tpi_base = 0xe0040000; // tpi base address
+const systick_base = scs_base + 0x0010; // systick base address
+const nvic_base = scs_base + 0x0100; // nvic base address
+const scb_base = scs_base + 0x0d00; // system control block base address
+const mpu_base = scs_base + 0x0d90; // memory protection unit base address
+const fpu_base = scs_base + 0x0f30; // floating point unit base address
 
-pub const SCnSCB: *volatile SCnSCB_t = @ptrFromInt(SCS_BASE);
-pub const SCB: *volatile SCB_t = @ptrFromInt(SCB_BASE);
-pub const SysTick: *volatile SysTick_t = @ptrFromInt(SysTick_BASE);
-pub const NVIC: *volatile NVIC_t = @ptrFromInt(NVIC_BASE);
+pub const scnscb: *volatile scnscb_t = @ptrFromInt(scs_base);
+pub const scb: *volatile scb_t = @ptrFromInt(scb_base);
+pub const systick: *volatile systick_t = @ptrFromInt(systick_base);
+pub const nvic: *volatile nvic_t = @ptrFromInt(nvic_base);
 
 pub inline fn DSB() void {
     asm volatile ("DSB\n");
@@ -138,8 +138,8 @@ pub inline fn ISB() void {
 }
 
 pub fn enableFpu() void {
-    SCB.CPACR.CP10 = .full_access;
-    SCB.CPACR.CP11 = .full_access;
+    scb.cpacr.cp10 = .full_access;
+    scb.cpacr.cp11 = .full_access;
 
     // reset instruction and data pipelines after enabling fpu
     DSB();
@@ -147,11 +147,11 @@ pub fn enableFpu() void {
 }
 
 pub fn enableIrq() void {
-    asm volatile ("CPSIE I");
+    asm volatile ("cpsie i");
 }
 
 pub fn disableIrq() void {
-    asm volatile ("CPSID I");
+    asm volatile ("cpsid i");
 }
 
 pub fn setPrimask(val: u32) void {
@@ -170,34 +170,34 @@ pub fn getPrimask() u32 {
     );
 }
 
-pub const NvicError = error{
-    NegativeIrqEnable,
-    IrqNumberTooLarge,
+pub const nvicError = error{
+    negativeIrqEnable,
+    irqNumberTooLarge,
 };
 
-pub fn enableIrqNumber(irq: IRQ_t) NvicError!void {
+pub fn enableIrqNumber(irq: IRQ_t) nvicError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return NvicError.NegativeIrqEnable;
+        return nvicError.negativeIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
         const bitShift: u5 = @truncate(irqNumber % 32);
-        NVIC.ISER[arrayIndex] |= @as(u32, 0b1) << bitShift;
+        nvic.iser[arrayIndex] |= @as(u32, 0b1) << bitShift;
     }
 }
 
-pub fn disableIrqNumber(irq: IRQ_t) NvicError!void {
+pub fn disableIrqNumber(irq: IRQ_t) nvicError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return NvicError.NegativeIrqEnable;
+        return nvicError.negativeIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
         const bitShift: u5 = @truncate(irqNumber % 32);
-        NVIC.ICER[arrayIndex] |= @as(u32, 0b1) << bitShift;
+        nvic.icer[arrayIndex] |= @as(u32, 0b1) << bitShift;
     }
 }
 
