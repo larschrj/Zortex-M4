@@ -180,8 +180,6 @@ pub fn enableIrqNumber(irq: IRQ_t) NvicError!void {
 
     if (irqValue < 0) {
         return NvicError.NegativeIrqEnable;
-    } else if (irqValue > 240) {
-        return NvicError.IrqNumberTooLarge;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -195,12 +193,21 @@ pub fn disableIrqNumber(irq: IRQ_t) NvicError!void {
 
     if (irqValue < 0) {
         return NvicError.NegativeIrqEnable;
-    } else if (irqValue > 240) {
-        return NvicError.IrqNumberTooLarge;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
         const bitShift: u5 = @truncate(irqNumber % 32);
         NVIC.ICER[arrayIndex] |= @as(u32, 0b1) << bitShift;
+    }
+}
+
+// Check IRQ numbers
+comptime {
+    const irqTypeInfo = @typeInfo(IRQ_t).@"enum";
+    const irqFields = irqTypeInfo.fields;
+    for (irqFields) |field| {
+        if (field.value > 239) {
+            @compileError("IRQ_t field value exceeds 239");
+        } else {}
     }
 }

@@ -28,7 +28,7 @@ pub fn build(b: *std.Build) void {
     });
     exe.entry = .{ .symbol_name = "Reset_Handler" };
 
-    exe.setLinkerScript(b.path("./STM32F411RETX_FLASH.ld"));
+    exe.setLinkerScript(b.path("./stm32f411re_flash.ld"));
 
     b.default_step.dependOn(&exe.step);
     b.installArtifact(exe);
