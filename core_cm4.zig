@@ -129,12 +129,27 @@ pub const scb: *volatile scb_t = @ptrFromInt(scb_base);
 pub const systick: *volatile systick_t = @ptrFromInt(systick_base);
 pub const nvic: *volatile nvic_t = @ptrFromInt(nvic_base);
 
-pub inline fn DSB() void {
-    asm volatile ("DSB\n");
+pub inline fn dsb() void {
+    asm volatile ("dsb\n");
 }
 
-pub inline fn ISB() void {
-    asm volatile ("ISB\n");
+pub inline fn isb() void {
+    asm volatile ("isb\n");
+}
+
+pub fn ldrex(addr: *u32) u32 {
+    return asm volatile ("ldrex %[result], [%[addr]]"
+        : [result] "=r" (-> u32),
+        : [addr] "r" (addr),
+    );
+}
+
+pub fn strex(addr: *u32, value: u32) u8 {
+    return asm volatile ("strex %[result], %[value], [%[addr]]"
+        : [result] "=r" (-> u8),
+        : [addr] "r" (addr),
+          [value] "r" (value),
+    );
 }
 
 pub fn enableFpu() void {
@@ -142,8 +157,8 @@ pub fn enableFpu() void {
     scb.cpacr.cp11 = .full_access;
 
     // reset instruction and data pipelines after enabling fpu
-    DSB();
-    ISB();
+    dsb();
+    isb();
 }
 
 pub fn enableIrq() void {

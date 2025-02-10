@@ -3,11 +3,16 @@ const rcc = @import("stm32f411re_rcc.zig").rcc;
 const gpio = @import("stm32f411re_gpio.zig");
 
 export var a: u32 = 3;
+export var b: u32 = 1;
+export var c: u32 = 4;
+export var ret: u8 = 1;
 
 pub fn main() void {
     core_cm4.enableFpu();
     core_cm4.enableIrq();
     core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
+    b = core_cm4.ldrex(&a);
+    ret = core_cm4.strex(&a, b);
 
     rcc.rcc_ahb1enr.gpioaen |= 0x1;
 
