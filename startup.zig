@@ -1,4 +1,5 @@
 const builtin = @import("builtin");
+const core_cm4 = @import("core_cm4.zig");
 const main = @import("main.zig");
 
 //extern fn main() void;
@@ -9,6 +10,9 @@ extern var __bss_start: u32;
 extern var __bss_size: u32;
 
 export fn Reset_Handler() void {
+    core_cm4.enableFpu();
+    core_cm4.enableIrq();
+
     // copy data from flash to RAM
     const data_size = @intFromPtr(&__data_size);
     const data_start_flash: [*]u8 = @ptrCast(&__data_start_flash);
@@ -16,10 +20,12 @@ export fn Reset_Handler() void {
     for (data_start_flash[0..data_size], 0..) |d, i| {
         data_start_ram[i] = d;
     }
+
     // clear the bss
     const bss_size = @intFromPtr(&__bss_size);
     const bss: [*]u8 = @ptrCast(&__bss_start);
     for (bss[0..bss_size]) |*d| d.* = 0;
+
     // start
     main.main();
 }

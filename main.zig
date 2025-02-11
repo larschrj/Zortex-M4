@@ -8,8 +8,6 @@ export var c: u32 = 4;
 export var ret: u8 = 1;
 
 pub fn main() void {
-    core_cm4.enableFpu();
-    core_cm4.enableIrq();
     core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
     b = core_cm4.ldrex(&a);
     ret = core_cm4.strex(&a, b);
