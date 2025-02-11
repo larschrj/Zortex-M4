@@ -137,14 +137,14 @@ pub inline fn isb() void {
     asm volatile ("isb\n");
 }
 
-pub fn ldrex(addr: *u32) u32 {
+pub inline fn ldrex(addr: *u32) u32 {
     return asm volatile ("ldrex %[result], [%[addr]]"
         : [result] "=r" (-> u32),
         : [addr] "r" (addr),
     );
 }
 
-pub fn strex(addr: *u32, value: u32) u8 {
+pub inline fn strex(addr: *u32, value: u32) u8 {
     return asm volatile ("strex %[result], %[value], [%[addr]]"
         : [result] "=r" (-> u8),
         : [addr] "r" (addr),
@@ -161,40 +161,37 @@ pub fn enableFpu() void {
     isb();
 }
 
-pub fn enableIrq() void {
+pub inline fn enableIrq() void {
     asm volatile ("cpsie i");
 }
 
-pub fn disableIrq() void {
+pub inline fn disableIrq() void {
     asm volatile ("cpsid i");
 }
 
-pub fn setPrimask(val: u32) void {
-    asm volatile ("msr primask, r0"
+pub inline fn setPrimask(val: u32) void {
+    asm volatile ("msr primask, %[val]"
         :
-        : [val] "{r0}" (val),
-        : "r0"
+        : [val] "r" (val),
     );
 }
 
 pub fn getPrimask() u32 {
-    return asm volatile ("mrs r0, primask"
-        : [ret] "=r0" (-> u32),
-        :
-        : "r0"
+    return asm volatile ("mrs %[ret], primask"
+        : [ret] "=r" (-> u32),
     );
 }
 
-pub const nvicError = error{
+pub const NvicError = error{
     negativeIrqEnable,
     irqNumberTooLarge,
 };
 
-pub fn enableIrqNumber(irq: IRQ_t) nvicError!void {
+pub fn enableIrqNumber(irq: IRQ_t) NvicError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return nvicError.negativeIrqEnable;
+        return NvicError.negativeIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -203,11 +200,11 @@ pub fn enableIrqNumber(irq: IRQ_t) nvicError!void {
     }
 }
 
-pub fn disableIrqNumber(irq: IRQ_t) nvicError!void {
+pub fn disableIrqNumber(irq: IRQ_t) NvicError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return nvicError.negativeIrqEnable;
+        return NvicError.negativeIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -222,7 +219,7 @@ comptime {
     const irqFields = irqTypeInfo.fields;
     for (irqFields) |field| {
         if (field.value > 239) {
-            @compileError("IRQ_t field value exceeds 239");
+            @compileError("Value of IRQ_t." ++ field.name ++ " exceeds 239");
         } else {}
     }
 }
