@@ -4,13 +4,17 @@ const gpio = @import("stm32f411re_gpio.zig");
 
 export var a: u32 = 3;
 export var b: u32 = 1;
-export var c: u32 = 4;
+export const c: f32 = 3.0;
+export var d: f32 = 5.0;
 export var ret: u8 = 1;
 
 pub fn main() void {
     core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
     b = core_cm4.ldrex(&a);
+    core_cm4.clrex();
     ret = core_cm4.strex(&a, b);
+
+    d = c * d;
 
     rcc.rcc_ahb1enr.gpioaen |= 0x1;
 

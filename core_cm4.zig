@@ -152,6 +152,10 @@ pub inline fn strex(addr: *u32, value: u32) u8 {
     );
 }
 
+pub inline fn clrex() void {
+    asm volatile ("clrex");
+}
+
 pub fn enableFpu() void {
     scb.cpacr.cp10 = .full_access;
     scb.cpacr.cp11 = .full_access;
