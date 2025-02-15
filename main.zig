@@ -6,7 +6,7 @@ export var a: u32 = 3;
 export var b: u32 = 1;
 export const c: f32 = 3.0;
 export var d: f32 = 5.0;
-export var ret: u8 = 1;
+export var ret: u8 = 0;
 
 pub fn main() void {
     core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
