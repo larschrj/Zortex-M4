@@ -13,6 +13,7 @@ pub fn main() void {
     b = core_cm4.ldrex(&a);
     core_cm4.clrex();
     ret = core_cm4.strex(&a, b);
+    core_cm4.setIrqPriority(.TIM1_CC_IRQn, 0);
 
     d = c * d;
 

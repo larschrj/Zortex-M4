@@ -67,14 +67,14 @@ const cpacr_t = packed struct(u32) {
     };
 };
 
-const scb_t = packed struct {
+const scb_t = extern struct {
     cpuid: u32, // cpuid base register
     icsr: u32, // interrupt control and state register
     vtor: u32, // vector table offset register
     aircr: u32, // application interrupt and reset control register
     scr: u32, // system control register
     ccr: u32, // configuration control register
-    shp: u96, // system handlers priority registers (4-7, 8-11, 12-15)
+    shp: [12]u8, // system handlers priority registers (4-7, 8-11, 12-15)
     shcsr: u32, // system handler control and state register
     cfsr: u32, // configurable fault status register
     hfsr: u32, // hardfault status register
@@ -82,12 +82,12 @@ const scb_t = packed struct {
     mmfar: u32, // memmanage fault address register
     bfar: u32, // busfault address register
     afsr: u32, // auxiliary fault status register
-    pfr: u64, // processor feature register
+    pfr: [2]u32, // processor feature register
     dfr: u32, // debug feature register
     adr: u32, // auxiliary feature register
-    mmfr: u128, // memory model feature register
-    isar: u160, // instruction set attributes register
-    _reserved0: u160,
+    mmfr: [4]u32, // memory model feature register
+    isar: [5]u32, // instruction set attributes register
+    _reserved0: [5]u32,
     cpacr: cpacr_t, // coprocessor access control register
 };
 
@@ -123,6 +123,7 @@ const nvic_base = scs_base + 0x0100; // nvic base address
 const scb_base = scs_base + 0x0d00; // system control block base address
 const mpu_base = scs_base + 0x0d90; // memory protection unit base address
 const fpu_base = scs_base + 0x0f30; // floating point unit base address
+const nvicPriorityBitWidth: u4 = 4;
 
 pub const scnscb: *volatile scnscb_t = @ptrFromInt(scs_base);
 pub const scb: *volatile scb_t = @ptrFromInt(scb_base);
@@ -186,16 +187,17 @@ pub fn getPrimask() u32 {
     );
 }
 
-pub const NvicError = error{
-    negativeIrqEnable,
+pub const irqError = error{
+    coreIrqNumberEnable,
+    negativeNvicIrqEnable,
     irqNumberTooLarge,
 };
 
-pub fn enableIrqNumber(irq: IRQ_t) NvicError!void {
+pub fn enableIrqNumber(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return NvicError.negativeIrqEnable;
+        return irqError.negativeIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -204,16 +206,33 @@ pub fn enableIrqNumber(irq: IRQ_t) NvicError!void {
     }
 }
 
-pub fn disableIrqNumber(irq: IRQ_t) NvicError!void {
+pub fn disableIrqNumber(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return NvicError.negativeIrqEnable;
+        return irqError.negativeIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
         const bitShift: u5 = @truncate(irqNumber % 32);
         nvic.icer[arrayIndex] |= @as(u32, 0b1) << bitShift;
+    }
+}
+
+pub fn setIrqPriority(irq: IRQ_t, priority: u8) irqError!void {
+    const irqNumber = @intFromEnum(irq);
+    const priorityEncoding: u8 = @truncate(priority << (8 - nvicPriorityBitWidth));
+    // core interrupt
+    if (irqNumber < 0) {
+        if (irqNumber < -12) {
+            return irqError.coreIrqNumberEnable;
+        } else {
+            const arrayIndex: usize = @intCast(@min(irqNumber + 12, 0));
+            scb.shp[arrayIndex] = priorityEncoding;
+        }
+    } else {
+        const arrayIndex: usize = @intCast(irqNumber);
+        nvic.ip[arrayIndex] = priorityEncoding;
     }
 }
 
