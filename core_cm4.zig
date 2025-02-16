@@ -129,6 +129,7 @@ const fpu_t = packed struct {
     mvfr2: u32, // (r/ )  media and fp feature register 2
 };
 
+const nvicPriorityBitWidth: u4 = 4;
 const scs_base = 0xe000e000; // system control space base address
 const itm_base = 0xe0000000; // itm base address
 const dwt_base = 0xe0001000; // dwt base address
@@ -138,7 +139,6 @@ const nvic_base = scs_base + 0x0100; // nvic base address
 const scb_base = scs_base + 0x0d00; // system control block base address
 const mpu_base = scs_base + 0x0d90; // memory protection unit base address
 const fpu_base = scs_base + 0x0f30; // floating point unit base address
-const nvicPriorityBitWidth: u4 = 4;
 
 pub const scnscb: *volatile scnscb_t = @ptrFromInt(scs_base);
 pub const scb: *volatile scb_t = @ptrFromInt(scb_base);
@@ -146,11 +146,11 @@ pub const systick: *volatile systick_t = @ptrFromInt(systick_base);
 pub const nvic: *volatile nvic_t = @ptrFromInt(nvic_base);
 
 pub inline fn dsb() void {
-    asm volatile ("dsb\n");
+    asm volatile ("dsb");
 }
 
 pub inline fn isb() void {
-    asm volatile ("isb\n");
+    asm volatile ("isb");
 }
 
 pub inline fn ldrex(addr: *u32) u32 {
@@ -203,16 +203,15 @@ pub fn getPrimask() u32 {
 }
 
 pub const irqError = error{
-    coreIrqNumberEnable,
-    negativeNvicIrqEnable,
-    irqNumberTooLarge,
+    coreIrqNumber,
+    negativeNvicIrq,
 };
 
 pub fn enableIrqNumber(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return irqError.negativeNvicIrqEnable;
+        return irqError.negativeNvicIrq;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -225,7 +224,7 @@ pub fn disableIrqNumber(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return irqError.negativeNvicIrqEnable;
+        return irqError.negativeNvicIrq;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -240,15 +239,34 @@ pub fn setIrqPriority(irq: IRQ_t, priority: u8) irqError!void {
     // core interrupt
     if (irqNumber < 0) {
         if (irqNumber < -12) {
-            return irqError.coreIrqNumberEnable;
+            return irqError.coreIrqNumber;
         } else {
-            const arrayIndex: usize = @intCast(@min(irqNumber + 12, 0));
+            const arrayIndex: usize = @intCast(irqNumber + 12);
             scb.shp[arrayIndex] = priorityEncoding;
         }
     } else {
         const arrayIndex: usize = @intCast(irqNumber);
         nvic.ip[arrayIndex] = priorityEncoding;
     }
+}
+
+pub fn getIrqPriority(irq: IRQ_t) irqError!u8 {
+    const irqNumber = @intFromEnum(irq);
+    var priorityEncoding: u8 = undefined;
+    // core interrupt
+    if (irqNumber < 0) {
+        if (irqNumber < -12) {
+            return irqError.coreIrqNumber;
+        } else {
+            const arrayIndex: usize = @intCast(irqNumber + 12);
+            priorityEncoding = scb.shp[arrayIndex];
+        }
+    } else {
+        const arrayIndex: usize = @intCast(irqNumber);
+        priorityEncoding = nvic.ip[arrayIndex];
+    }
+    priorityEncoding = @truncate(priorityEncoding >> (8 - nvicPriorityBitWidth));
+    return priorityEncoding;
 }
 
 // Check IRQ numbers
