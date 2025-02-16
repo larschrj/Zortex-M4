@@ -69,24 +69,11 @@ const nvic_t = extern struct {
     stir: u8,
 };
 
-const cpacr_t = packed struct(u32) {
-    _reserved0: u20,
-    cp10: coprocessor_access,
-    cp11: coprocessor_access,
-    _reserved1: u8,
-
-    pub const coprocessor_access = enum(u2) {
-        access_denied = 0b00,
-        privileged_access = 0b01,
-        full_access = 0b11,
-    };
-};
-
 const scb_t = extern struct {
     cpuid: u32, // cpuid base register
     icsr: u32, // interrupt control and state register
     vtor: u32, // vector table offset register
-    aircr: u32, // application interrupt and reset control register
+    aircr: aircr_t, // application interrupt and reset control register
     scr: u32, // system control register
     ccr: u32, // configuration control register
     shp: [12]u8, // system handlers priority registers (4-7, 8-11, 12-15)
@@ -104,6 +91,30 @@ const scb_t = extern struct {
     isar: [5]u32, // instruction set attributes register
     _reserved0: [5]u32,
     cpacr: cpacr_t, // coprocessor access control register
+
+    const aircr_t = packed struct(u32) {
+        vectreset: u1,
+        vectclractive: u1,
+        sysresetreq: u1,
+        _reserved0: u5,
+        prigroup: u3,
+        _reserved1: u4,
+        endianess: u1,
+        vectkey: u16,
+    };
+
+    const cpacr_t = packed struct(u32) {
+        _reserved0: u20,
+        cp10: coprocessor_access,
+        cp11: coprocessor_access,
+        _reserved1: u8,
+
+        pub const coprocessor_access = enum(u2) {
+            access_denied = 0b00,
+            privileged_access = 0b01,
+            full_access = 0b11,
+        };
+    };
 };
 
 const scnscb_t = packed struct {
