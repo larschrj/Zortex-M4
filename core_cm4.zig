@@ -31,23 +31,23 @@ const xpsr_t = packed struct {
     n: u1,
 };
 
-const control_t = packed struct {
-    npriv: npriv_t,
-    spsel: spsel_t,
-    fpca: fpca_t,
-    _reserved0: u29,
+const control_t = packed struct(u32) {
+    npriv: npriv_t = .privileged,
+    spsel: spsel_t = .msp,
+    fpca: fpca_t = .float_context_inactive,
+    _reserved0: u29 = 0,
 
-    const npriv_t = enum(u1) {
+    pub const npriv_t = enum(u1) {
         privileged = 0,
         unprivileged = 1,
     };
 
-    const spsel_t = enum(u1) {
+    pub const spsel_t = enum(u1) {
         msp = 0,
         psp = 1,
     };
 
-    const fpca_t = enum(u1) {
+    pub const fpca_t = enum(u1) {
         float_context_inactive = 0,
         float_context_active = 1,
     };
@@ -210,6 +210,18 @@ pub inline fn setPrimask(val: u32) void {
 pub fn getPrimask() u32 {
     return asm volatile ("mrs %[ret], primask"
         : [ret] "=r" (-> u32),
+    );
+}
+
+pub fn setPrivilege(privilege: control_t.npriv_t) void {
+    const control = control_t{ .npriv = privilege };
+    asm volatile (
+        \\mrs r1, control
+        \\orr r1, %[control]
+        \\msr control, r1
+        :
+        : [control] "r" (control),
+        : "r1"
     );
 }
 
