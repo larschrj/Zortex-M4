@@ -197,7 +197,7 @@ pub fn enableIrqNumber(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return irqError.negativeIrqEnable;
+        return irqError.negativeNvicIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
@@ -210,7 +210,7 @@ pub fn disableIrqNumber(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
-        return irqError.negativeIrqEnable;
+        return irqError.negativeNvicIrqEnable;
     } else {
         const irqNumber: u8 = @intCast(irqValue);
         const arrayIndex: u8 = irqNumber / 32;
