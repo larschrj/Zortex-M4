@@ -32,10 +32,25 @@ const xpsr_t = packed struct {
 };
 
 const control_t = packed struct {
-    npriv: u1,
-    spsel: u1,
-    fpca: u1,
+    npriv: npriv_t,
+    spsel: spsel_t,
+    fpca: fpca_t,
     _reserved0: u29,
+
+    const npriv_t = enum(u1) {
+        privileged = 0,
+        unprivileged = 1,
+    };
+
+    const spsel_t = enum(u1) {
+        msp = 0,
+        psp = 1,
+    };
+
+    const fpca_t = enum(u1) {
+        float_context_inactive = 0,
+        float_context_active = 1,
+    };
 };
 
 const nvic_t = extern struct {
