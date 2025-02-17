@@ -97,10 +97,18 @@ const scb_t = extern struct {
         vectclractive: u1,
         sysresetreq: u1,
         _reserved0: u5,
-        prigroup: u3,
+        prigroup: prigroup_t,
         _reserved1: u4,
         endianess: u1,
         vectkey: u16,
+
+        const prigroup_t = enum(u3) {
+            groupPrioBitWidth4 = 0b000,
+            groupPrioBitWidth3 = 0b100,
+            groupPrioBitWidth2 = 0b101,
+            groupPrioBitWidth1 = 0b110,
+            groupPrioBitWidth0 = 0b111,
+        };
     };
 
     const cpacr_t = packed struct(u32) {
