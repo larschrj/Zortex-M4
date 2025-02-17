@@ -132,10 +132,48 @@ const scnscb_t = packed struct {
 };
 
 const systick_t = packed struct {
-    ctrl: u32,
-    load: u32,
-    val: u32,
-    calib: u32,
+    ctrl: ctrl_t,
+    load: u24,
+    _reserved0: u8,
+    val: u24,
+    _reserved1: u8,
+    calib: calib_t,
+
+    const ctrl_t = packed struct(u32) {
+        enable: enable_t,
+        tickInt: tickInt_t,
+        clkSource: clkSource_t,
+        _reserve0: u13,
+        countFlag: countFlag_t,
+        _reserve1: u15,
+
+        const enable_t = enum(u1) {
+            disabled = 0,
+            enabled = 1,
+        };
+
+        const tickInt_t = enum(u1) {
+            exceptionReqDisable = 0,
+            exceptionReqEnable = 1,
+        };
+
+        const clkSource_t = enum(u1) {
+            ahbDivide8 = 0,
+            ahb = 1,
+        };
+
+        const countFlag_t = enum(u1) {
+            noReloadSinceLastRead = 0,
+            reloadSinceLastRead = 1,
+        };
+    };
+
+    const calib_t = packed struct(u32) {
+        tenms: u24,
+        _reserved0: u6,
+        skew: u1,
+        noref: u1,
+    };
 };
 
 const fpu_t = packed struct {
