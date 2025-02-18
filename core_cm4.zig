@@ -186,6 +186,23 @@ const fpu_t = packed struct {
     mvfr2: u32, // (r/ )  media and fp feature register 2
 };
 
+const groupPriority_t = switch (nvicPriorityBitWidth) {
+    8 => u8,
+    7 => u7,
+    6 => u6,
+    5 => u5,
+    4 => u4,
+    3 => u3,
+    2 => u2,
+    1 => u1,
+    0 => u0,
+};
+const subPriority_t = groupPriority_t;
+const priorityEncoding_t = packed struct {
+    groupPriority: groupPriority_t,
+    subPriority: subPriority_t,
+};
+
 const nvicPriorityBitWidth: u4 = 4;
 const scs_base = 0xe000e000; // system control space base address
 const itm_base = 0xe0000000; // itm base address
@@ -336,6 +353,14 @@ pub fn getIrqPriority(irq: IRQ_t) irqError!u8 {
     }
     priorityEncoding = @truncate(priorityEncoding >> (8 - nvicPriorityBitWidth));
     return priorityEncoding;
+}
+
+pub fn encodePriority(groupPriority: u8, subPriority: u8) priorityEncoding_t {
+    const groupPriorityBitWidth = @intFromEnum(scb.aircr.prigroup);
+    _ = groupPriorityBitWidth;
+    _ = groupPriority;
+    _ = subPriority;
+    //@shlWithOverflow()
 }
 
 // Check IRQ numbers
