@@ -1,3 +1,4 @@
+const std = @import("std");
 const IRQ_t = @import("stm32f411xe.zig").IRQ_t;
 
 const apsr_t = packed struct {
@@ -186,19 +187,13 @@ const fpu_t = packed struct {
     mvfr2: u32, // (r/ )  media and fp feature register 2
 };
 
-const groupPriority_t = switch (nvicPriorityBitSize) {
-    8 => u8,
-    7 => u7,
-    6 => u6,
-    5 => u5,
-    4 => u4,
-    3 => u3,
-    2 => u2,
-    1 => u1,
-    0 => u0,
-};
+const groupPriority_t = std.meta.Int(.unsigned, nvicPriorityBitSize);
 const subPriority_t = groupPriority_t;
-const priority_t = packed struct {
+const priorityShift_t = std.math.Log2Int(groupPriority_t);
+const priorityTypeMax: groupPriority_t = std.math.maxInt(groupPriority_t);
+const priorityEncodeShift_t = u3;
+const priorityEncodeShift: priorityEncodeShift_t = 8 - nvicPriorityBitSize;
+pub const priority_t = packed struct {
     groupPriority: groupPriority_t,
     subPriority: subPriority_t,
 };
@@ -358,15 +353,29 @@ pub fn getIrqPriority(irq: IRQ_t) irqError!u8 {
 pub fn encodePriority(priority: priority_t) u8 {
     const groupPriorityBitSize: u4 = @as(u4, 7) -| @intFromEnum(scb.aircr.prigroup);
     const subPriorityBitSize: u4 = @intFromEnum(scb.aircr.prigroup) -| @as(u4, 3);
+    var priorityEncoding: u8 = undefined;
 
-    const groupPriorityMax: u4 = (@as(groupPriority_t, 0) -% 1) >> (nvicPriorityBitSize -| groupPriorityBitSize);
-    const subPriorityMax: u4 = (@as(subPriority_t, 0) -% 1) >> (nvicPriorityBitSize -| subPriorityBitSize);
+    if (groupPriorityBitSize == nvicPriorityBitSize) {
+        const groupPriorityMax = priorityTypeMax;
+        const groupPriority: u8 = @min(priority.groupPriority, groupPriorityMax);
+        priorityEncoding = groupPriority << priorityEncodeShift;
+    } else if (subPriorityBitSize == nvicPriorityBitSize) {
+        const subPriorityMax = priorityTypeMax;
+        const subPriority: u8 = @min(priority.subPriority, subPriorityMax);
+        priorityEncoding = subPriority << priorityEncodeShift;
+    } else {
+        const groupMaxShift: priorityShift_t = @truncate(nvicPriorityBitSize - groupPriorityBitSize);
+        const subMaxShift: priorityShift_t = @truncate(nvicPriorityBitSize - subPriorityBitSize);
+        const groupPriorityMax = priorityTypeMax >> groupMaxShift;
+        const subPriorityMax = priorityTypeMax >> subMaxShift;
+        const groupPriority: u8 = @min(priority.groupPriority, groupPriorityMax);
+        const subPriority: u8 = @min(priority.subPriority, subPriorityMax);
+        const encodeShift: priorityEncodeShift_t = @truncate(subPriorityBitSize);
+        priorityEncoding = (groupPriority << encodeShift) | subPriority;
+    }
 
-    const groupPriority: u8 = @min(priority.groupPriority, groupPriorityMax);
-    const subPriority: u8 = @min(priority.subPriority, subPriorityMax);
-
-    var priorityEncoding: u8 = (groupPriority << subPriorityBitSize) | subPriority;
     priorityEncoding = @shlExact(priorityEncoding, 8 - nvicPriorityBitSize);
+    return priorityEncoding;
 }
 
 pub fn decodePriority(priorityEncoding: u8) priority_t {

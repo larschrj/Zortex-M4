@@ -13,7 +13,10 @@ pub fn main() void {
     b = core_cm4.ldrex(&a);
     core_cm4.clrex();
     ret = core_cm4.strex(&a, b);
-    core_cm4.setIrqPriority(.TIM1_CC_IRQn, 0) catch unreachable;
+
+    const priority = core_cm4.priority_t{ .groupPriority = 2, .subPriority = 0 };
+    const priorityEncoded = core_cm4.encodePriority(priority);
+    core_cm4.setIrqPriority(.TIM1_CC_IRQn, priorityEncoded) catch unreachable;
 
     d = c * d;
 
