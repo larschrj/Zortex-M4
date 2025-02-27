@@ -358,11 +358,11 @@ pub fn encodePriority(priority: priority_t) u8 {
     if (groupPriorityBitSize == nvicPriorityBitSize) {
         const groupPriorityMax = priorityTypeMax;
         const groupPriority: u8 = @min(priority.groupPriority, groupPriorityMax);
-        priorityEncoding = groupPriority << priorityEncodeShift;
+        priorityEncoding = groupPriority;
     } else if (subPriorityBitSize == nvicPriorityBitSize) {
         const subPriorityMax = priorityTypeMax;
         const subPriority: u8 = @min(priority.subPriority, subPriorityMax);
-        priorityEncoding = subPriority << priorityEncodeShift;
+        priorityEncoding = subPriority;
     } else {
         const groupMaxShift: priorityShift_t = @truncate(nvicPriorityBitSize - groupPriorityBitSize);
         const subMaxShift: priorityShift_t = @truncate(nvicPriorityBitSize - subPriorityBitSize);
