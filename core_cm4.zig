@@ -351,8 +351,8 @@ pub fn getIrqPriority(irq: IRQ_t) irqError!u8 {
 }
 
 pub fn encodePriority(priority: priority_t) u8 {
-    const groupPriorityBitSize: u4 = @as(u4, 7) -| @intFromEnum(scb.aircr.prigroup);
-    const subPriorityBitSize: u4 = @intFromEnum(scb.aircr.prigroup) -| @as(u4, 3);
+    const groupPriorityBitSize: u4 = @as(u4, 7) -| @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1);
+    const subPriorityBitSize: u4 = @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1) -| @as(u4, 3);
     var priorityEncoding: u8 = undefined;
 
     if (groupPriorityBitSize == nvicPriorityBitSize) {
