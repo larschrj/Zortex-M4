@@ -379,15 +379,23 @@ pub fn encodePriority(priority: priority_t) u8 {
 }
 
 pub fn decodePriority(priorityEncoding: u8) priority_t {
-    const groupPriorityBitSize: u4 = @as(u4, 7) -| @intFromEnum(scb.aircr.prigroup);
-    const subPriorityBitSize: u4 = @intFromEnum(scb.aircr.prigroup) -| @as(u4, 3);
-
-    const groupPriorityMask: u8 = 0xff >> (8 -| groupPriorityBitSize) << subPriorityBitSize;
-    const subPriorityMask: u8 = 0xff >> (8 -| subPriorityBitSize);
+    const groupPriorityBitSize: u4 = @as(u4, 7) -| @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1);
+    const subPriorityBitSize: u4 = @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1) -| @as(u4, 3);
 
     var priority: priority_t = undefined;
-    priority.groupPriority = @truncate((priorityEncoding >> (8 -| nvicPriorityBitSize)) & groupPriorityMask);
-    priority.subPriority = @truncate((priorityEncoding >> (8 -| nvicPriorityBitSize)) & subPriorityMask);
+    if (groupPriorityBitSize == nvicPriorityBitSize) {
+        priority.groupPriority = priorityEncoding >> priorityEncodeShift;
+        priority.subPriority = 0;
+    } else if (subPriorityBitSize == nvicPriorityBitSize) {
+        priority.groupPriority = 0;
+        priority.subPriority = priorityEncoding >> priorityEncodeShift;
+    } else {
+        const priorityBits: groupPriority_t = @truncate(priorityEncoding >> priorityEncodeShift);
+        const subPriorityShift: priorityShift_t = subPriorityBitSize;
+        const subPriorityMask: groupPriority_t = 0xff >> subPriorityShift;
+        priority.groupPriority = priorityBits >> subPriorityShift;
+        priority.subPriority = priorityBits & subPriorityMask;
+    }
 
     return priority;
 }
