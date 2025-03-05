@@ -296,7 +296,7 @@ pub const irqError = error{
     negativeNvicIrq,
 };
 
-pub fn enableIrqNumber(irq: IRQ_t) irqError!void {
+pub fn nvicEnableIrq(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
@@ -309,7 +309,7 @@ pub fn enableIrqNumber(irq: IRQ_t) irqError!void {
     }
 }
 
-pub fn disableIrqNumber(irq: IRQ_t) irqError!void {
+pub fn nvicDisableIrq(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
@@ -322,7 +322,7 @@ pub fn disableIrqNumber(irq: IRQ_t) irqError!void {
     }
 }
 
-pub fn setIrqPriority(irq: IRQ_t, priority: u8) irqError!void {
+pub fn nvicSetPriority(irq: IRQ_t, priority: u8) irqError!void {
     const irqNumber = @intFromEnum(irq);
     const priorityEncoding: u8 = @truncate(priority << (8 - nvicPriorityBitSize));
     // core interrupt
@@ -339,7 +339,7 @@ pub fn setIrqPriority(irq: IRQ_t, priority: u8) irqError!void {
     }
 }
 
-pub fn getIrqPriority(irq: IRQ_t) irqError!u8 {
+pub fn nvicGetPriority(irq: IRQ_t) irqError!u8 {
     const irqNumber = @intFromEnum(irq);
     var priorityEncoding: u8 = undefined;
     // core interrupt
@@ -358,7 +358,7 @@ pub fn getIrqPriority(irq: IRQ_t) irqError!u8 {
     return priorityEncoding;
 }
 
-pub fn encodePriority(priority: priority_t) u8 {
+pub fn nvicEncodePriority(priority: priority_t) u8 {
     const groupPriorityBitSize: u4 = @as(u4, 7) -| @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1);
     const subPriorityBitSize: u4 = @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1) -| @as(u4, 3);
     var priorityEncoding: u8 = undefined;
@@ -386,7 +386,7 @@ pub fn encodePriority(priority: priority_t) u8 {
     return priorityEncoding;
 }
 
-pub fn decodePriority(priorityEncoding: u8) priority_t {
+pub fn nvicDecodePriority(priorityEncoding: u8) priority_t {
     const groupPriorityBitSize: u4 = @as(u4, 7) -| @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1);
     const subPriorityBitSize: u4 = @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1) -| @as(u4, 3);
 

@@ -12,15 +12,15 @@ pub fn main() void {
     core_cm4.enableFpu();
     core_cm4.enableIrq();
 
-    core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
+    core_cm4.nvicEnableIrq(.TIM1_CC_IRQn) catch unreachable;
 
     b = core_cm4.ldrex(&a);
     core_cm4.clrex();
     ret = core_cm4.strex(&a, b);
 
     const priority = core_cm4.priority_t{ .groupPriority = 2, .subPriority = 0 };
-    const priorityEncoded = core_cm4.encodePriority(priority);
-    core_cm4.setIrqPriority(.TIM1_CC_IRQn, priorityEncoded) catch unreachable;
+    const priorityEncoded = core_cm4.nvicEncodePriority(priority);
+    core_cm4.nvicSetPriority(.TIM1_CC_IRQn, priorityEncoded) catch unreachable;
 
     d = c * d;
 
