@@ -11,9 +11,9 @@ export var ret: u8 = 0;
 pub fn main() void {
     core_cm4.enableFpu();
     core_cm4.enableIrq();
-    core_cm4.enableFiq();
 
     core_cm4.enableIrqNumber(.TIM1_CC_IRQn) catch unreachable;
+
     b = core_cm4.ldrex(&a);
     core_cm4.clrex();
     ret = core_cm4.strex(&a, b);
