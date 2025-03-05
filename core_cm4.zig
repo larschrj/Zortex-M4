@@ -258,6 +258,14 @@ pub inline fn disableIrq() void {
     asm volatile ("cpsid i");
 }
 
+pub inline fn enableFiq() void {
+    asm volatile ("cpsie f");
+}
+
+pub inline fn disableFiq() void {
+    asm volatile ("cpsid f");
+}
+
 pub inline fn setPrimask(val: u32) void {
     asm volatile ("msr primask, %[val]"
         :

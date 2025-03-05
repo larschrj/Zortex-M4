@@ -10,9 +10,6 @@ extern var __bss_start: u32;
 extern var __bss_size: u32;
 
 export fn Reset_Handler() void {
-    core_cm4.enableFpu();
-    core_cm4.enableIrq();
-
     // copy data from flash to RAM
     const data_size = @intFromPtr(&__data_size);
     const data_start_flash: [*]u8 = @ptrCast(&__data_start_flash);
