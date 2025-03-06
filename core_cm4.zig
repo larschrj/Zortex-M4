@@ -322,39 +322,39 @@ pub fn nvicDisableIrq(irq: IRQ_t) irqError!void {
     }
 }
 
-pub fn nvicSetPriority(irq: IRQ_t, priority: u8) irqError!void {
+pub fn nvicSetPriority(irq: IRQ_t, priorityEncoding: u8) irqError!void {
     const irqNumber = @intFromEnum(irq);
-    const priorityEncoding: u8 = @truncate(priority << (8 - nvicPriorityBitSize));
+    const priorityBits: u8 = @truncate(priorityEncoding << priorityEncodeShift);
     // core interrupt
     if (irqNumber < 0) {
         if (irqNumber < -12) {
             return irqError.coreIrqNumber;
         } else {
             const arrayIndex: usize = @intCast(irqNumber + 12);
-            scb.shp[arrayIndex] = priorityEncoding;
+            scb.shp[arrayIndex] = priorityBits;
         }
     } else {
         const arrayIndex: usize = @intCast(irqNumber);
-        nvic.ip[arrayIndex] = priorityEncoding;
+        nvic.ip[arrayIndex] = priorityBits;
     }
 }
 
 pub fn nvicGetPriority(irq: IRQ_t) irqError!u8 {
     const irqNumber = @intFromEnum(irq);
-    var priorityEncoding: u8 = undefined;
+    var priorityBits: u8 = undefined;
     // core interrupt
     if (irqNumber < 0) {
         if (irqNumber < -12) {
             return irqError.coreIrqNumber;
         } else {
             const arrayIndex: usize = @intCast(irqNumber + 12);
-            priorityEncoding = scb.shp[arrayIndex];
+            priorityBits = scb.shp[arrayIndex];
         }
     } else {
         const arrayIndex: usize = @intCast(irqNumber);
-        priorityEncoding = nvic.ip[arrayIndex];
+        priorityBits = nvic.ip[arrayIndex];
     }
-    priorityEncoding = @truncate(priorityEncoding >> (8 - nvicPriorityBitSize));
+    const priorityEncoding: u8 = @truncate(priorityBits >> priorityEncodeShift);
     return priorityEncoding;
 }
 
@@ -382,7 +382,6 @@ pub fn nvicEncodePriority(priority: priority_t) u8 {
         priorityEncoding = (groupPriority << encodeShift) | subPriority;
     }
 
-    priorityEncoding = @shlExact(priorityEncoding, 8 - nvicPriorityBitSize);
     return priorityEncoding;
 }
 
@@ -392,17 +391,16 @@ pub fn nvicDecodePriority(priorityEncoding: u8) priority_t {
 
     var priority: priority_t = undefined;
     if (groupPriorityBitSize == nvicPriorityBitSize) {
-        priority.groupPriority = priorityEncoding >> priorityEncodeShift;
+        priority.groupPriority = priorityEncoding;
         priority.subPriority = 0;
     } else if (subPriorityBitSize == nvicPriorityBitSize) {
         priority.groupPriority = 0;
-        priority.subPriority = priorityEncoding >> priorityEncodeShift;
+        priority.subPriority = priorityEncoding;
     } else {
-        const priorityBits: groupPriority_t = @truncate(priorityEncoding >> priorityEncodeShift);
         const subPriorityShift: priorityShift_t = subPriorityBitSize;
         const subPriorityMask: groupPriority_t = 0xff >> subPriorityShift;
-        priority.groupPriority = priorityBits >> subPriorityShift;
-        priority.subPriority = priorityBits & subPriorityMask;
+        priority.groupPriority = priorityEncoding >> subPriorityShift;
+        priority.subPriority = priorityEncoding & subPriorityMask;
     }
 
     return priority;
