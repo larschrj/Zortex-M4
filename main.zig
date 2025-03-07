@@ -18,8 +18,7 @@ pub fn main() void {
     core_cm4.clrex();
     ret = core_cm4.strex(&a, b);
 
-    const priority = core_cm4.priority_t{ .groupPriority = 2, .subPriority = 0 };
-    const priorityEncoded = core_cm4.nvicEncodePriority(priority);
+    const priorityEncoded = core_cm4.nvicEncodePriority(.{ .groupPriority = 2, .subPriority = 0 });
     core_cm4.nvicSetPriority(.TIM1_CC_IRQn, priorityEncoded) catch unreachable;
 
     d = c * d;
