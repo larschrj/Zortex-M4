@@ -187,15 +187,14 @@ const fpu_t = packed struct {
     mvfr2: u32, // (r/ )  media and fp feature register 2
 };
 
-const groupPriority_t = std.meta.Int(.unsigned, nvicPriorityBitSize);
-const subPriority_t = groupPriority_t;
-const priorityShift_t = std.math.Log2Int(groupPriority_t);
-const priorityTypeMax: groupPriority_t = std.math.maxInt(groupPriority_t);
+const priorityField_t = std.meta.Int(.unsigned, nvicPriorityBitSize);
+const priorityShift_t = std.math.Log2Int(priorityField_t);
+const priorityTypeMax: priorityField_t = std.math.maxInt(priorityField_t);
 const priorityEncodeShift_t = u3;
 const priorityEncodeShift: priorityEncodeShift_t = 8 - nvicPriorityBitSize;
 pub const priority_t = packed struct {
-    groupPriority: groupPriority_t,
-    subPriority: subPriority_t,
+    groupPriority: priorityField_t,
+    subPriority: priorityField_t,
 };
 
 const nvicPriorityBitSize: u4 = 4;
@@ -385,7 +384,7 @@ pub fn nvicEncodePriority(priority: priority_t) u8 {
     return priorityEncoding;
 }
 
-pub fn nvicDecodePriority(priorityEncoding: u8) priority_t {
+pub fn nvicDecodePriority(priorityEncoding: priorityField_t) priority_t {
     const groupPriorityBitSize: u4 = @as(u4, 7) -| @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1);
     const subPriorityBitSize: u4 = @max(@intFromEnum(scb.aircr.prigroup), nvicPriorityBitSize - 1) -| @as(u4, 3);
 
@@ -398,7 +397,7 @@ pub fn nvicDecodePriority(priorityEncoding: u8) priority_t {
         priority.subPriority = priorityEncoding;
     } else {
         const subPriorityShift: priorityShift_t = subPriorityBitSize;
-        const subPriorityMask: groupPriority_t = 0xff >> subPriorityShift;
+        const subPriorityMask: priorityField_t = 0xff >> subPriorityShift;
         priority.groupPriority = priorityEncoding >> subPriorityShift;
         priority.subPriority = priorityEncoding & subPriorityMask;
     }
