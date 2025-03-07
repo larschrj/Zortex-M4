@@ -103,7 +103,7 @@ const scb_t = extern struct {
         endianess: u1,
         vectkey: u16,
 
-        const prigroup_t = enum(u3) {
+        pub const prigroup_t = enum(u3) {
             groupPrioBitWidth4 = 0b011,
             groupPrioBitWidth3 = 0b100,
             groupPrioBitWidth2 = 0b101,
