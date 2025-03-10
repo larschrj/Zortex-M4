@@ -295,6 +295,14 @@ pub const irqError = error{
     negativeNvicIrq,
 };
 
+pub fn nvicSetPriorityGrouping(priorityGrouping: scb_t.aircr_t.prigroup_t) void {
+    scb.aircr.prigroup = priorityGrouping;
+}
+
+pub fn nvicGetPriorityGrouping() scb_t.aircr_t.prigroup_t {
+    return scb.aircr.prigroup;
+}
+
 pub fn nvicEnableIrq(irq: IRQ_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
