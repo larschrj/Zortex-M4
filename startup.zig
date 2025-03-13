@@ -1,5 +1,6 @@
 const builtin = @import("builtin");
 const core_cm4 = @import("core_cm4.zig");
+const irq = @import("interruptHandlers.zig");
 const main = @import("main.zig");
 
 //extern fn main() void;
@@ -38,7 +39,7 @@ const HardFault_Handler = BusyDummy_Handler;
 const MemManage_Handler = BusyDummy_Handler;
 const BusFault_Handler = BusyDummy_Handler;
 const UsageFault_Handler = BusyDummy_Handler;
-const SVC_Handler = BusyDummy_Handler;
+const SVC_Handler = irq.SVC_Handler;
 const DebugMon_Handler = BusyDummy_Handler;
 const PendSV_Handler = BusyDummy_Handler;
 const SysTick_Handler = BusyDummy_Handler;
