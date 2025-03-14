@@ -10,7 +10,7 @@ extern var __data_size: u32;
 extern var __bss_start: u32;
 extern var __bss_size: u32;
 
-export fn Reset_Handler() void {
+export fn Reset_Handler() callconv(.c) void {
     // copy data from flash to RAM
     const data_size = @intFromPtr(&__data_size);
     const data_start_flash: [*]u8 = @ptrCast(&__data_start_flash);
@@ -28,11 +28,11 @@ export fn Reset_Handler() void {
     main.main();
 }
 
-export fn BusyDummy_Handler() void {
+export fn BusyDummy_Handler() callconv(.c) void {
     while (true) {}
 }
 
-export fn Dummy_Handler() void {}
+export fn Dummy_Handler() callconv(.c) void {}
 
 const NMI_Handler = BusyDummy_Handler;
 const HardFault_Handler = BusyDummy_Handler;
@@ -114,7 +114,7 @@ export var vector_table linksection(".isr_vector") = [_]?Isr{
     null,
     null,
     null,
-    &SVC_Handler,
+    @ptrCast(&SVC_Handler),
     &DebugMon_Handler,
     null,
     &PendSV_Handler,
