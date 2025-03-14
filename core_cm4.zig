@@ -288,6 +288,7 @@ pub fn getControl() control_t {
 pub fn setControl(control: control_t) void {
     asm volatile (
         \\msr control, %[control]
+        \\isb
         :
         : [control] "r" (control),
     );
