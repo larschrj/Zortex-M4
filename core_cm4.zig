@@ -278,15 +278,18 @@ pub fn getPrimask() u32 {
     );
 }
 
-pub fn setPrivilege(privilege: control_t.npriv_t) void {
-    const control = control_t{ .npriv = privilege };
+pub fn getControl() control_t {
+    return asm volatile (
+        \\mrs %[ret], control
+        : [ret] "=r" (-> control_t),
+    );
+}
+
+pub fn setControl(control: control_t) void {
     asm volatile (
-        \\mrs r1, control
-        \\orr r1, %[control]
-        \\msr control, r1
+        \\msr control, %[control]
         :
         : [control] "r" (control),
-        : "r1"
     );
 }
 

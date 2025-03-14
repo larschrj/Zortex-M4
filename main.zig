@@ -30,6 +30,5 @@ pub fn main() void {
     gpio.gpioa.pupdr.pupdr5 = .pullup;
     gpio.gpioa.odr.odr5 = 0b1;
 
-    core_cm4.setPrivilege(.unprivileged);
     while (true) {}
 }
