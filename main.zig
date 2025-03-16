@@ -30,7 +30,12 @@ pub fn main() void {
     gpio.gpioa.pupdr.pupdr5 = .pullup;
     gpio.gpioa.odr.odr5 = 0b1;
 
-    _ = core_cm4.getControl();
+    const control = core_cm4.getControl();
+    _ = control;
+
+    asm volatile (
+        \\svc #01
+    );
 
     while (true) {}
 }

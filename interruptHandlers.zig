@@ -13,5 +13,7 @@ pub fn SVC_Handler() callconv(.c) void {
 }
 
 export fn svcMain(sp: [*]u32) void {
-    _ = sp;
+    const pc: [*]u8 = @ptrFromInt((sp + 6)[0]);
+    const svcNumber: u8 = (pc - 2)[0];
+    _ = svcNumber;
 }

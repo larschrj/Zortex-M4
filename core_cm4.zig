@@ -272,20 +272,20 @@ pub inline fn setPrimask(val: u32) void {
     );
 }
 
-pub fn getPrimask() u32 {
+pub inline fn getPrimask() u32 {
     return asm volatile ("mrs %[ret], primask"
         : [ret] "=r" (-> u32),
     );
 }
 
-pub fn getControl() control_t {
+pub inline fn getControl() control_t {
     return asm volatile (
         \\mrs %[ret], control
         : [ret] "=r" (-> control_t),
     );
 }
 
-pub fn setControl(control: control_t) void {
+pub inline fn setControl(control: control_t) void {
     asm volatile (
         \\msr control, %[control]
         \\isb
