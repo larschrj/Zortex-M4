@@ -11,17 +11,7 @@ export var ret: u8 = 0;
 pub fn main() void {
     core_cm4.enableFpu();
     core_cm4.enableIrq();
-
-    core_cm4.nvicEnableIrq(.TIM1_CC_IRQn) catch unreachable;
-
-    b = core_cm4.ldrex(&a);
-    core_cm4.clrex();
-    ret = core_cm4.strex(&a, b);
-
-    const priorityEncoded = core_cm4.nvicEncodePriority(.{ .groupPriority = 2, .subPriority = 0 });
-    core_cm4.nvicSetPriority(.TIM1_CC_IRQn, priorityEncoded) catch unreachable;
-
-    d = c * d;
+    core_cm4.nvicSetPriority(.PendSV_IRQn, 15) catch unreachable;
 
     rcc.rcc_ahb1enr.gpioaen |= 0x1;
 
@@ -29,9 +19,6 @@ pub fn main() void {
     gpio.gpioa.otyper.ot5 = .push_pull;
     gpio.gpioa.pupdr.pupdr5 = .pullup;
     gpio.gpioa.odr.odr5 = 0b1;
-
-    const control = core_cm4.getControl();
-    _ = control;
 
     asm volatile (
         \\svc #01
