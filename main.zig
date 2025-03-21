@@ -13,7 +13,7 @@ pub fn main() void {
     core_cm4.enableIrq();
     core_cm4.nvicSetPriority(.PendSV_IRQn, 15) catch unreachable;
 
-    rcc.rcc_ahb1enr.gpioaen |= 0x1;
+    rcc.ahb1enr.gpioaen |= 0x1;
 
     gpio.gpioa.moder.moder5 = .output;
     gpio.gpioa.otyper.ot5 = .push_pull;
@@ -25,4 +25,9 @@ pub fn main() void {
     );
 
     while (true) {}
+}
+
+fn clockConfig() void {
+    rcc.cr.hsion = 1;
+    while (rcc.cr.hsirdy != 1) {}
 }
