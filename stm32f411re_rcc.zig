@@ -22,10 +22,15 @@ const rcc_pllcfgr_t = packed struct(u32) {
     _reserved0: u1,
     pllp: u2,
     _reserved1: u4,
-    pllsrc: u1,
+    pllsrc: pllsrc_t,
     _reserved2: u1,
     pllq: u4,
     _reserved3: u4,
+
+    const pllsrc_t = enum(u1) {
+        hsi = 0,
+        hse = 1,
+    };
 };
 
 const rcc_cfgr_t = packed struct(u32) {

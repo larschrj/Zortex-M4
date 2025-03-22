@@ -16,7 +16,7 @@ const gpio_moder_t = packed struct(u32) {
     moder14: gpio_mode,
     moder15: gpio_mode,
 
-    pub const gpio_mode = enum(u2) {
+    const gpio_mode = enum(u2) {
         input = 0b00,
         output = 0b01,
         alternate_function = 0b10,
@@ -42,7 +42,7 @@ const gpio_otyper_t = packed struct(u16) {
     ot14: gpio_otype,
     ot15: gpio_otype,
 
-    pub const gpio_otype = enum(u1) {
+    const gpio_otype = enum(u1) {
         push_pull = 0b0,
         open_drain = 0b1,
     };
@@ -66,7 +66,7 @@ const gpio_ospeedr_t = packed struct(u32) {
     ospeedr14: gpio_ospeed,
     ospeedr15: gpio_ospeed,
 
-    pub const gpio_ospeed = enum(u2) {
+    const gpio_ospeed = enum(u2) {
         low = 0b00,
         medium = 0b01,
         fast = 0b10,
@@ -92,7 +92,7 @@ const gpio_pupdr_t = packed struct(u32) {
     pupdr14: gpio_pupd,
     pupdr15: gpio_pupd,
 
-    pub const gpio_pupd = enum(u2) {
+    const gpio_pupd = enum(u2) {
         no_pullup_pulldown = 0b00,
         pullup = 0b01,
         pulldown = 0b10,
@@ -229,14 +229,14 @@ const gpioa_afr_t = packed struct(u64) {
     afr14: gpioa_af_p14,
     afr15: gpioa_af_p15,
 
-    pub const gpioa_af_p0 = enum(u4) {
+    const gpioa_af_p0 = enum(u4) {
         tim2_ch1_tim2_etr = 1,
         tim5_ch1 = 2,
         usart2_cts = 7,
         event_out = 15,
     };
 
-    pub const gpioa_af_p1 = enum(u4) {
+    const gpioa_af_p1 = enum(u4) {
         tim2_ch2 = 1,
         tim5_ch2 = 2,
         spi4_mosi_i2s4_sd = 5,
@@ -244,7 +244,7 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p2 = enum(u4) {
+    const gpioa_af_p2 = enum(u4) {
         tim2_ch3 = 1,
         tim5_ch3 = 2,
         tim9_ch1 = 3,
@@ -253,7 +253,7 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p3 = enum(u4) {
+    const gpioa_af_p3 = enum(u4) {
         tim2_ch4 = 1,
         tim5_ch4 = 2,
         tim9_ch2 = 3,
@@ -262,19 +262,19 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p4 = enum(u4) {
+    const gpioa_af_p4 = enum(u4) {
         spi1_nss_i2s1_ws = 5,
         spi3_nss_i2s3_ws = 6,
         usart2_ck = 7,
         event_out = 15,
     };
 
-    pub const gpioa_af_p5 = enum(u4) {
+    const gpioa_af_p5 = enum(u4) {
         tim2_ch1_tim2_etr = 1,
         spi1_sck_i2s1_ck = 5,
     };
 
-    pub const gpioa_af_p6 = enum(u4) {
+    const gpioa_af_p6 = enum(u4) {
         tim1_bkin = 1,
         tim3_ch1 = 2,
         spi1_mosi = 5,
@@ -283,14 +283,14 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p7 = enum(u4) {
+    const gpioa_af_p7 = enum(u4) {
         tim1_ch1n = 1,
         tim3_ch2 = 2,
         spi1_mosi_i2s1_sd = 5,
         event_out = 15,
     };
 
-    pub const gpioa_af_p8 = enum(u4) {
+    const gpioa_af_p8 = enum(u4) {
         mco1 = 0,
         tim1_ch1 = 1,
         i2c3_scl = 4,
@@ -300,7 +300,7 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p9 = enum(u4) {
+    const gpioa_af_p9 = enum(u4) {
         tim1_ch2 = 1,
         i2c3_smba = 4,
         usart_tx = 7,
@@ -309,7 +309,7 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p10 = enum(u4) {
+    const gpioa_af_p10 = enum(u4) {
         tim1_ch3 = 1,
         spi5_mosi_i2s5_sd = 6,
         usart1_rx = 7,
@@ -317,7 +317,7 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p11 = enum(u4) {
+    const gpioa_af_p11 = enum(u4) {
         tim1_ch4 = 1,
         spi4_miso = 6,
         usart1_cts = 7,
@@ -326,7 +326,7 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p12 = enum(u4) {
+    const gpioa_af_p12 = enum(u4) {
         tim1_etr = 1,
         spi5_miso = 6,
         usart1_rts = 7,
@@ -335,17 +335,17 @@ const gpioa_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioa_af_p13 = enum(u4) {
+    const gpioa_af_p13 = enum(u4) {
         jtms_swdio = 0,
         event_out = 15,
     };
 
-    pub const gpioa_af_p14 = enum(u4) {
+    const gpioa_af_p14 = enum(u4) {
         jtck_swclk = 0,
         event_out = 15,
     };
 
-    pub const gpioa_af_p15 = enum(u4) {
+    const gpioa_af_p15 = enum(u4) {
         jtdi = 0,
         tim2_ch1_tim2_etr = 1,
         spi1_nss_i2s1_ws = 5,
@@ -373,25 +373,25 @@ const gpiob_afr_t = packed struct(u64) {
     afr14: gpiob_af_p14,
     afr15: gpiob_af_p15,
 
-    pub const gpiob_af_p0 = enum(u4) {
+    const gpiob_af_p0 = enum(u4) {
         tim1_ch2n = 1,
         tim3_ch3 = 2,
         spi5_sck_i2s5_ck = 6,
         event_out = 15,
     };
 
-    pub const gpiob_af_p1 = enum(u4) {
+    const gpiob_af_p1 = enum(u4) {
         tim1_ch3n = 1,
         tim3_ch4 = 2,
         spi5_nss_i2s5_ws = 6,
         event_out = 15,
     };
 
-    pub const gpiob_af_p2 = enum(u4) {
+    const gpiob_af_p2 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p3 = enum(u4) {
+    const gpiob_af_p3 = enum(u4) {
         jtdo_swo = 0,
         tim2_ch2 = 1,
         spi1_sck_i2s1_ck = 5,
@@ -401,7 +401,7 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p4 = enum(u4) {
+    const gpiob_af_p4 = enum(u4) {
         jtrst = 0,
         tim3_ch1 = 2,
         spi1_miso = 5,
@@ -412,7 +412,7 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p5 = enum(u4) {
+    const gpiob_af_p5 = enum(u4) {
         tim3_ch2 = 2,
         i2c1_smba = 4,
         spi1_mosi_i2s1_sd = 5,
@@ -421,14 +421,14 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p6 = enum(u4) {
+    const gpiob_af_p6 = enum(u4) {
         tim4_ch1 = 2,
         i2c1_scl = 4,
         usart1_tx = 7,
         event_out = 15,
     };
 
-    pub const gpiob_af_p7 = enum(u4) {
+    const gpiob_af_p7 = enum(u4) {
         tim4_ch2 = 2,
         i2c1_sda = 4,
         usart1_rx = 7,
@@ -436,7 +436,7 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p8 = enum(u4) {
+    const gpiob_af_p8 = enum(u4) {
         tim4_ch3 = 2,
         tim10_ch1 = 3,
         i2c1_scl = 4,
@@ -446,7 +446,7 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p9 = enum(u4) {
+    const gpiob_af_p9 = enum(u4) {
         tim4_ch4 = 2,
         tim11_ch1 = 3,
         i2c1_sda = 4,
@@ -456,7 +456,7 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p10 = enum(u4) {
+    const gpiob_af_p10 = enum(u4) {
         tim2_ch3 = 1,
         i2c2_scl = 4,
         spi2_sck_i2s2_ck = 5,
@@ -465,14 +465,14 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p11 = enum(u4) {
+    const gpiob_af_p11 = enum(u4) {
         tim2_ch4 = 1,
         i2c2_sda = 4,
         i2s2_ckin = 5,
         event_out = 15,
     };
 
-    pub const gpiob_af_p12 = enum(u4) {
+    const gpiob_af_p12 = enum(u4) {
         tim1_bkin = 1,
         i2c2_smba = 4,
         spi2_nss_i2s2_ws = 5,
@@ -481,14 +481,14 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p13 = enum(u4) {
+    const gpiob_af_p13 = enum(u4) {
         tim1_ch1n = 1,
         spi2_sck_i2s2_ck = 5,
         spi4_sck_i2s4_ck = 6,
         event_out = 15,
     };
 
-    pub const gpiob_af_p14 = enum(u4) {
+    const gpiob_af_p14 = enum(u4) {
         tim1_ch2n = 1,
         spi2_miso = 5,
         i2s2ext_sd = 6,
@@ -496,7 +496,7 @@ const gpiob_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpiob_af_p15 = enum(u4) {
+    const gpiob_af_p15 = enum(u4) {
         rtc_50hz = 0,
         tim1_ch3n = 1,
         spi2_mosi_i2s2_sd = 5,
@@ -523,34 +523,34 @@ const gpioc_afr_t = packed struct(u64) {
     afr14: gpioc_af_p14,
     afr15: gpioc_af_p15,
 
-    pub const gpioc_af_p0 = enum(u4) {
+    const gpioc_af_p0 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p1 = enum(u4) {
+    const gpioc_af_p1 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p2 = enum(u4) {
+    const gpioc_af_p2 = enum(u4) {
         spi2_miso = 5,
         i2s2ext_sd = 6,
         event_out = 15,
     };
 
-    pub const gpioc_af_p3 = enum(u4) {
+    const gpioc_af_p3 = enum(u4) {
         spi2_mosi_i2s2_sd = 5,
         event_out = 15,
     };
 
-    pub const gpioc_af_p4 = enum(u4) {
+    const gpioc_af_p4 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p5 = enum(u4) {
+    const gpioc_af_p5 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p6 = enum(u4) {
+    const gpioc_af_p6 = enum(u4) {
         tim3_ch1 = 2,
         i2s2_mck = 5,
         usart6_tx = 8,
@@ -558,7 +558,7 @@ const gpioc_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p7 = enum(u4) {
+    const gpioc_af_p7 = enum(u4) {
         tim3_ch2 = 2,
         spi2_sck_i2s2_ck = 5,
         i2s3_mck = 6,
@@ -567,14 +567,14 @@ const gpioc_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p8 = enum(u4) {
+    const gpioc_af_p8 = enum(u4) {
         tim3_ch3 = 2,
         usart6_ck = 8,
         sdio_d0 = 12,
         event_out = 15,
     };
 
-    pub const gpioc_af_p9 = enum(u4) {
+    const gpioc_af_p9 = enum(u4) {
         mco_2 = 0,
         tim3_ch4 = 2,
         i2c3_sda = 4,
@@ -583,30 +583,30 @@ const gpioc_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioc_af_p10 = enum(u4) {
+    const gpioc_af_p10 = enum(u4) {
         spi3_sck_i2s3_ck = 6,
         sdio_d2 = 12,
         event_out = 15,
     };
 
-    pub const gpioc_af_p11 = enum(u4) {
+    const gpioc_af_p11 = enum(u4) {
         i2s3ext_sd = 5,
         spi3_miso = 6,
         sdio_d3 = 12,
         event_out = 15,
     };
 
-    pub const gpioc_af_p12 = enum(u4) {
+    const gpioc_af_p12 = enum(u4) {
         spi3_mosi_i2s3_sd = 6,
         sdio_ck = 12,
         event_out = 15,
     };
 
-    pub const gpioc_af_p13 = enum(u4) {};
+    const gpioc_af_p13 = enum(u4) {};
 
-    pub const gpioc_af_p14 = enum(u4) {};
+    const gpioc_af_p14 = enum(u4) {};
 
-    pub const gpioc_af_p15 = enum(u4) {};
+    const gpioc_af_p15 = enum(u4) {};
 };
 
 const gpiod_afr_t = packed struct(u64) {
@@ -627,79 +627,79 @@ const gpiod_afr_t = packed struct(u64) {
     afr14: gpiod_af_p14,
     afr15: gpiod_af_p15,
 
-    pub const gpiod_af_p0 = enum(u4) {
+    const gpiod_af_p0 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiod_af_p1 = enum(u4) {
+    const gpiod_af_p1 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiod_af_p2 = enum(u4) {
+    const gpiod_af_p2 = enum(u4) {
         tim3_etr = 2,
         sdio_cmd = 12,
         event_out = 15,
     };
 
-    pub const gpiod_af_p3 = enum(u4) {
+    const gpiod_af_p3 = enum(u4) {
         spi2_sck_i2s2_ck = 5,
         usart2_cts = 7,
         event_out = 15,
     };
 
-    pub const gpiod_af_p4 = enum(u4) {
+    const gpiod_af_p4 = enum(u4) {
         usart2_rts = 7,
         event_out = 15,
     };
 
-    pub const gpiod_af_p5 = enum(u4) {
+    const gpiod_af_p5 = enum(u4) {
         usart2_tx = 7,
         event_out = 15,
     };
 
-    pub const gpiod_af_p6 = enum(u4) {
+    const gpiod_af_p6 = enum(u4) {
         spi3_mosi_i2s3_sd = 5,
         usart2_rx = 7,
         event_out = 15,
     };
 
-    pub const gpiod_af_p7 = enum(u4) {
+    const gpiod_af_p7 = enum(u4) {
         usart2_ck = 7,
         event_out = 15,
     };
 
-    pub const gpiod_af_p8 = enum(u4) {
+    const gpiod_af_p8 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiod_af_p9 = enum(u4) {
+    const gpiod_af_p9 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiod_af_p10 = enum(u4) {
+    const gpiod_af_p10 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiod_af_p11 = enum(u4) {
+    const gpiod_af_p11 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpiod_af_p12 = enum(u4) {
+    const gpiod_af_p12 = enum(u4) {
         tim4_ch1 = 2,
         event_out = 15,
     };
 
-    pub const gpiod_af_p13 = enum(u4) {
+    const gpiod_af_p13 = enum(u4) {
         tim4_ch2 = 2,
         event_out = 15,
     };
 
-    pub const gpiod_af_p14 = enum(u4) {
+    const gpiod_af_p14 = enum(u4) {
         tim4_ch3 = 2,
         event_out = 15,
     };
 
-    pub const gpiod_af_p15 = enum(u4) {
+    const gpiod_af_p15 = enum(u4) {
         tim4_ch4 = 2,
         event_out = 15,
     };
@@ -723,35 +723,35 @@ const gpioe_afr_t = packed struct(u64) {
     afr14: gpioe_af_p14,
     afr15: gpioe_af_p15,
 
-    pub const gpioe_af_p0 = enum(u4) {
+    const gpioe_af_p0 = enum(u4) {
         tim4_etr = 2,
         event_out = 15,
     };
 
-    pub const gpioe_af_p1 = enum(u4) {
+    const gpioe_af_p1 = enum(u4) {
         event_out = 15,
     };
 
-    pub const gpioe_af_p2 = enum(u4) {
+    const gpioe_af_p2 = enum(u4) {
         traceclk = 0,
         spi4_sck_i2s4_ck = 5,
         spi5_sck_i2s5_ck = 6,
         event_out = 15,
     };
 
-    pub const gpioe_af_p3 = enum(u4) {
+    const gpioe_af_p3 = enum(u4) {
         traced0 = 0,
         event_out = 15,
     };
 
-    pub const gpioe_af_p4 = enum(u4) {
+    const gpioe_af_p4 = enum(u4) {
         traced1 = 0,
         spi4_nss_i2s4_ws = 5,
         spi5_nss_i2s5_ws = 6,
         event_out = 15,
     };
 
-    pub const gpioe_af_p5 = enum(u4) {
+    const gpioe_af_p5 = enum(u4) {
         traced2 = 0,
         tim9_ch1 = 3,
         spi4_miso = 5,
@@ -759,7 +759,7 @@ const gpioe_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioe_af_p6 = enum(u4) {
+    const gpioe_af_p6 = enum(u4) {
         traced3 = 0,
         tim9_ch2 = 3,
         spi4_mosi_i2s4_sd = 5,
@@ -767,55 +767,55 @@ const gpioe_afr_t = packed struct(u64) {
         event_out = 15,
     };
 
-    pub const gpioe_af_p7 = enum(u4) {
+    const gpioe_af_p7 = enum(u4) {
         tim1_etr = 1,
         event_out = 15,
     };
 
-    pub const gpioe_af_p8 = enum(u4) {
+    const gpioe_af_p8 = enum(u4) {
         tim1_ch1n = 1,
         event_out = 15,
     };
 
-    pub const gpioe_af_p9 = enum(u4) {
+    const gpioe_af_p9 = enum(u4) {
         tim1_ch1 = 1,
         event_out = 15,
     };
 
-    pub const gpioe_af_p10 = enum(u4) {
+    const gpioe_af_p10 = enum(u4) {
         tim1_ch2n = 1,
         event_out = 15,
     };
 
-    pub const gpioe_af_p11 = enum(u4) {
+    const gpioe_af_p11 = enum(u4) {
         tim1_ch2 = 1,
         spi4_nss_i2s4_ws = 5,
         spi5_nss_i2s5_ws = 6,
         event_out = 15,
     };
 
-    pub const gpioe_af_p12 = enum(u4) {
+    const gpioe_af_p12 = enum(u4) {
         tim1_ch3n = 1,
         spi4_sck_i2s4_ck = 5,
         spi5_sck_i2s5_ck = 6,
         event_out = 15,
     };
 
-    pub const gpioe_af_p13 = enum(u4) {
+    const gpioe_af_p13 = enum(u4) {
         tim1_ch3 = 1,
         spi4_miso = 5,
         spi5_miso = 6,
         event_out = 15,
     };
 
-    pub const gpioe_af_p14 = enum(u4) {
+    const gpioe_af_p14 = enum(u4) {
         tim1_ch4 = 1,
         spi4_mosi_i2s4_sd = 5,
         spi5_mosi_i2s5_sd = 6,
         event_out = 15,
     };
 
-    pub const gpioe_af_p15 = enum(u4) {
+    const gpioe_af_p15 = enum(u4) {
         tim1_bkin = 1,
         event_out = 15,
     };
