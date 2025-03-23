@@ -34,6 +34,16 @@ fn clockConfig() void {
     rcc.pllcfgr.pllm = 3;
     rcc.pllcfgr.pllp = 2;
     rcc.pllcfgr.pllq = 2;
+    rcc.cr.pllon = 1;
+    while (rcc.cr.pllrdy == 0) {}
+
+    // set clock dividers for AHB, APB1 and APB2 to 1
+    rcc.cfgr.hpre = .div1;
+    rcc.cfgr.ppre1 = .div1;
+    rcc.cfgr.ppre2 = .div1;
+
+    // set system clock to pll
+    rcc.cfgr.sw = .pll;
 
     rcc.ahb1enr.gpioaen = 1;
     rcc.ahb1enr.gpioben = 1;

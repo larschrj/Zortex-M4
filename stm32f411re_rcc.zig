@@ -34,18 +34,83 @@ const rcc_pllcfgr_t = packed struct(u32) {
 };
 
 const rcc_cfgr_t = packed struct(u32) {
-    sw: u2,
-    sws: u2,
-    hpre: u4,
+    sw: sw_t,
+    sws: sws_t,
+    hpre: hpre_t,
     _reserved0: u2,
-    ppre1: u3,
-    ppre2: u3,
+    ppre1: ppre1_t,
+    ppre2: ppre2_t,
     rtcpre: u5,
-    mco1: u2,
-    i2ssrc: u1,
-    mco1pre: u3,
-    mco2pre: u3,
-    mco2: u2,
+    mco1: mco1_t,
+    i2ssrc: i2ssrc_t,
+    mco1pre: mco1pre_t,
+    mco2pre: mco2pre_t,
+    mco2: mco2_t,
+
+    const sw_t = enum(u2) {
+        hsi = 0b00,
+        hse = 0b01,
+        pll = 0b11,
+    };
+
+    const sws_t = sw_t;
+
+    const hpre_t = enum(u4) {
+        div1 = 0b0000,
+        div2 = 0b1000,
+        div4 = 0b1001,
+        div8 = 0b1010,
+        div16 = 0b1011,
+        div64 = 0b1100,
+        div128 = 0b1101,
+        div256 = 0b1110,
+        div512 = 0b1111,
+    };
+
+    const ppre1_t = enum(u3) {
+        div1 = 0b000,
+        div2 = 0b100,
+        div4 = 0b101,
+        div8 = 0b110,
+        div16 = 0b111,
+    };
+
+    const ppre2_t = ppre1_t;
+
+    const mco1_t = enum(u2) {
+        hsi = 0b00,
+        lse = 0b01,
+        hse = 0b10,
+        pll = 0b11,
+    };
+
+    const i2ssrc_t = enum(u1) {
+        plli2s = 0b0,
+        i2s_ckin = 0b1,
+    };
+
+    const mco1pre_t = enum(u3) {
+        div1 = 0b000,
+        div2 = 0b100,
+        div3 = 0b101,
+        div4 = 0b110,
+        div5 = 0b111,
+    };
+
+    const mco2pre_t = enum(u3) {
+        div1 = 0b000,
+        div2 = 0b100,
+        div3 = 0b101,
+        div4 = 0b110,
+        div5 = 0b111,
+    };
+
+    const mco2_t = enum(u2) {
+        sysclk = 0b00,
+        plli2s = 0b01,
+        hse = 0b10,
+        pll = 0b11,
+    };
 };
 
 const rcc_cir_t = packed struct(u32) {
