@@ -350,17 +350,36 @@ const rcc_bdcr_t = packed struct(u32) {
 };
 
 const rcc_csr_t = packed struct(u32) {
-    lsion: u1,
-    lsirdy: u1,
+    lsion: status_t,
+    lsirdy: rdy_t,
     _reserved0: u22,
-    rmvf: u1,
-    borrstf: u1,
-    pinrstf: u1,
-    porrstf: u1,
-    sftrstf: u1,
-    iwdgrstf: u1,
-    wwdgrstf: u1,
-    lpwrrstf: u1,
+    rmvf: rmvf_t,
+    borrstf: rstf_t,
+    pinrstf: rstf_t,
+    porrstf: rstf_t,
+    sftrstf: rstf_t,
+    iwdgrstf: rstf_t,
+    wwdgrstf: rstf_t,
+    lpwrrstf: rstf_t,
+
+    const status_t = enum(u1) {
+        off = 0,
+        on = 1,
+    };
+
+    const rdy_t = enum(u1) {
+        notReady = 0,
+        ready = 1,
+    };
+
+    const rmvf_t = enum(u1) {
+        clearResetFlags = 1,
+    };
+
+    const rstf_t = enum(u1) {
+        noReset = 0,
+        resetOccurred = 1,
+    };
 };
 
 const rcc_sscgr_t = packed struct(u32) {
