@@ -114,30 +114,53 @@ const rcc_cfgr_t = packed struct(u32) {
 };
 
 const rcc_cir_t = packed struct(u32) {
-    lsirdyf: u1,
-    lserdyf: u1,
-    hsirdyf: u1,
-    hserdyf: u1,
-    pllrdyf: u1,
-    plli2srdyf: u1,
+    lsirdyf: rdyf_t,
+    lserdyf: rdyf_t,
+    hsirdyf: rdyf_t,
+    hserdyf: rdyf_t,
+    pllrdyf: rdyf_t,
+    plli2srdyf: rdyf_t,
     _reserved0: u1,
-    cssf: u1,
-    lsirdyie: u1,
-    lserdyie: u1,
-    hsirdyie: u1,
-    hserdyie: u1,
-    pllrdyie: u1,
-    plli2srdyie: u1,
+    cssf: cssf_t,
+    lsirdyie: rdyie_t,
+    lserdyie: rdyie_t,
+    hsirdyie: rdyie_t,
+    hserdyie: rdyie_t,
+    pllrdyie: rdyie_t,
+    plli2srdyie: rdyie_t,
     _reserved1: u2,
-    lsirdyc: u1,
-    lserdyc: u1,
-    hsirdyc: u1,
-    hserdyc: u1,
-    pllrdyc: u1,
-    plli2srdyc: u1,
+    lsirdyc: rdyc_t,
+    lserdyc: rdyc_t,
+    hsirdyc: rdyc_t,
+    hserdyc: rdyc_t,
+    pllrdyc: rdyc_t,
+    plli2srdyc: rdyc_t,
     _reserved2: u1,
-    cssc: u1,
+    cssc: cssc_t,
     _reserved3: u8,
+
+    const rdyf_t = enum(u1) {
+        noReadyInterrupt = 0,
+        readyInterrupt = 1,
+    };
+
+    const cssf_t = enum(u1) {
+        noHseFailureInterrupt = 0,
+        hseFailureInterrupt = 1,
+    };
+
+    const rdyie_t = enum(u1) {
+        readyInterruptDisabled = 0,
+        readyInterruptEnabled = 1,
+    };
+
+    const rdyc_t = enum(u1) {
+        clearFlag = 1,
+    };
+
+    const cssc_t = enum(u1) {
+        clearFlag = 1,
+    };
 };
 
 const rcc_ahb1rstr_t = packed struct(u32) {
