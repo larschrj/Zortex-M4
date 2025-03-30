@@ -30,20 +30,20 @@ const rcc_t = packed struct {
     dckcfgr: rcc_dckcfgr_t,
 
     const rcc_cr_t = packed struct(u32) {
-        hsion: u1,
-        hsirdy: u1,
+        hsion: enable_t,
+        hsirdy: rdy_t,
         _reserved0: u1,
         hsitrim: u5,
         hsical: u8,
-        hseon: u1,
-        hserdy: u1,
+        hseon: enable_t,
+        hserdy: rdy_t,
         hsebyp: u1,
-        csson: u1,
+        csson: enable_t,
         _reserved1: u4,
-        pllon: u1,
-        pllrdy: u1,
-        plli2son: u1,
-        plli2srdy: u1,
+        pllon: enable_t,
+        pllrdy: rdy_t,
+        plli2son: enable_t,
+        plli2srdy: rdy_t,
         _reserved2: u4,
     };
 
@@ -390,8 +390,8 @@ const rcc_t = packed struct {
     };
 
     const rcc_bdcr_t = packed struct(u32) {
-        lseon: u1,
-        lserdy: u1,
+        lseon: enable_t,
+        lserdy: rdy_t,
         lsebyp: u1,
         lsemod: u1,
         _reserved0: u4,
