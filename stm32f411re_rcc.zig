@@ -416,16 +416,6 @@ const rcc_t = packed struct {
         wwdgrstf: rstf_t,
         lpwrrstf: rstf_t,
 
-        const status_t = enum(u1) {
-            off = 0,
-            on = 1,
-        };
-
-        const rdy_t = enum(u1) {
-            notReady = 0,
-            ready = 1,
-        };
-
         const rmvf_t = enum(u1) {
             clearResetFlags = 1,
         };
@@ -456,6 +446,16 @@ const rcc_t = packed struct {
         _reserved0: u24,
         timpre: u1,
         _reserved1: u7,
+    };
+
+    const status_t = enum(u1) {
+        off = 0,
+        on = 1,
+    };
+
+    const rdy_t = enum(u1) {
+        notReady = 0,
+        ready = 1,
     };
 
     const rst_t = enum(u1) {
