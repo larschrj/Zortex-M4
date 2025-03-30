@@ -18,13 +18,15 @@ pub fn build(b: *std.Build) void {
     };
     const target = b.resolveTargetQuery(query);
 
-    var exe = b.addExecutable(.{
-        .name = "firmware.elf",
+    const rootModule = b.createModule(.{
+        .root_source_file = b.path("./startup.zig"),
         .target = target,
         .optimize = mode,
-        .root_source_file = b.path("./startup.zig"),
-        .single_threaded = true,
-        .unwind_tables = .none,
+    });
+
+    var exe = b.addExecutable(.{
+        .name = "firmware.elf",
+        .root_module = rootModule,
     });
     exe.entry = .{ .symbol_name = "Reset_Handler" };
 
