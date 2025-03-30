@@ -45,10 +45,10 @@ fn clockConfig() void {
     // set system clock to pll
     rcc.cfgr.sw = .pll;
 
-    rcc.ahb1enr.gpioaen = 1;
-    rcc.ahb1enr.gpioben = 1;
-    rcc.ahb1enr.gpiocen = 1;
-    rcc.ahb1enr.gpioden = 1;
-    rcc.ahb1enr.gpioeen = 1;
-    rcc.ahb1enr.gpiohen = 1;
+    rcc.ahb1enr.gpioaen = .enable;
+    rcc.ahb1enr.gpioben = .enable;
+    rcc.ahb1enr.gpiocen = .enable;
+    rcc.ahb1enr.gpioden = .enable;
+    rcc.ahb1enr.gpioeen = .enable;
+    rcc.ahb1enr.gpiohen = .enable;
 }
