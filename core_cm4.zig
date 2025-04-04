@@ -1,5 +1,5 @@
 const std = @import("std");
-const IRQ_t = @import("stm32f411xe.zig").IRQ_t;
+const irq_t = @import("stm32f411re_irq.zig").irq_t;
 
 const apsr_t = packed struct {
     _reserved0: u16,
@@ -307,7 +307,7 @@ pub fn nvicGetPriorityGrouping() scb_t.aircr_t.prigroup_t {
     return scb.aircr.prigroup;
 }
 
-pub fn nvicEnableIrq(irq: IRQ_t) irqError!void {
+pub fn nvicEnableIrq(irq: irq_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
@@ -320,7 +320,7 @@ pub fn nvicEnableIrq(irq: IRQ_t) irqError!void {
     }
 }
 
-pub fn nvicDisableIrq(irq: IRQ_t) irqError!void {
+pub fn nvicDisableIrq(irq: irq_t) irqError!void {
     const irqValue = @intFromEnum(irq);
 
     if (irqValue < 0) {
@@ -333,7 +333,7 @@ pub fn nvicDisableIrq(irq: IRQ_t) irqError!void {
     }
 }
 
-pub fn nvicSetPriority(irq: IRQ_t, priorityEncoding: u8) irqError!void {
+pub fn nvicSetPriority(irq: irq_t, priorityEncoding: u8) irqError!void {
     const irqNumber = @intFromEnum(irq);
     const priorityBits: u8 = @truncate(priorityEncoding << priorityEncodeShift);
     // core interrupt
@@ -350,7 +350,7 @@ pub fn nvicSetPriority(irq: IRQ_t, priorityEncoding: u8) irqError!void {
     }
 }
 
-pub fn nvicGetPriority(irq: IRQ_t) irqError!u8 {
+pub fn nvicGetPriority(irq: irq_t) irqError!u8 {
     const irqNumber = @intFromEnum(irq);
     var priorityBits: u8 = undefined;
     // core interrupt
@@ -419,7 +419,7 @@ pub fn nvicDecodePriority(priorityEncoding: priorityField_t) priority_t {
 
 // Check IRQ numbers
 comptime {
-    const irqTypeInfo = @typeInfo(IRQ_t).@"enum";
+    const irqTypeInfo = @typeInfo(irq_t).@"enum";
     for (irqTypeInfo.fields) |field| {
         if (field.value > 239) {
             @compileError("Value of IRQ_t." ++ field.name ++ " exceeds 239");

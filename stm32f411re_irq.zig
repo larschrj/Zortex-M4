@@ -1,4 +1,6 @@
-pub const IRQ_t = enum(i16) {
+const std = @import("std");
+
+pub const irq_t = enum(i16) {
     // Cortex-M4 Processor Exceptions Numbers
     NonMaskableInt_IRQn = -14, // 2 Non Maskable Interrupt
     HardFault_IRQn = -13, // 3 HardFault Interrupt
@@ -68,3 +70,13 @@ pub const IRQ_t = enum(i16) {
     SPI4_IRQn = 84, // SPI4 global Interrupt
     SPI5_IRQn = 85, // SPI5 global Interrupt
 };
+
+// Check IRQ numbers
+comptime {
+    const irqTypeInfo = @typeInfo(irq_t).@"enum";
+    for (irqTypeInfo.fields) |field| {
+        if (field.value > 239) {
+            @compileError("Value of IRQ_t." ++ field.name ++ " exceeds 239");
+        } else {}
+    }
+}
