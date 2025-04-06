@@ -15,10 +15,6 @@ pub fn main() void {
     gpio.gpioa.pupdr.pupdr5 = .pullup;
     gpio.gpioa.odr.odr5 = 0b1;
 
-    asm volatile (
-        \\svc #01
-    );
-
     while (true) {}
 }
 

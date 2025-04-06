@@ -417,16 +417,6 @@ pub fn nvicDecodePriority(priorityEncoding: priorityField_t) priority_t {
     return priority;
 }
 
-// Check IRQ numbers
-comptime {
-    const irqTypeInfo = @typeInfo(irq_t).@"enum";
-    for (irqTypeInfo.fields) |field| {
-        if (field.value > 239) {
-            @compileError("Value of IRQ_t." ++ field.name ++ " exceeds 239");
-        } else {}
-    }
-}
-
 // Check prigroup_t values
 comptime {
     const prigroupTypeInfo = @typeInfo(scb_t.aircr_t.prigroup_t).@"enum";
