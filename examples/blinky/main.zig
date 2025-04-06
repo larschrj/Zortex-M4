@@ -1,6 +1,6 @@
-const core_cm4 = @import("core_cm4.zig");
-const rcc = @import("stm32f411re_rcc.zig").rcc;
-const gpio = @import("stm32f411re_gpio.zig");
+const core_cm4 = @import("stm32f411re").core_cm4;
+const rcc = @import("stm32f411re").rcc;
+const gpio = @import("stm32f411re").gpio;
 
 pub fn main() void {
     clockConfig();
