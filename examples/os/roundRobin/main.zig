@@ -1,13 +1,23 @@
+const core_cm4 = @import("stm32f411re").core_cm4;
 const rcc = @import("stm32f411re").rcc;
 const gpio = @import("stm32f411re").gpio;
 
 pub fn main() void {
     clockConfig();
 
+    core_cm4.enableFpu();
+    core_cm4.enableIrq();
+
+    core_cm4.nvicSetPriority(.PendSV_IRQn, 15) catch unreachable;
+
     gpio.gpioa.moder.moder5 = .output;
     gpio.gpioa.otyper.ot5 = .push_pull;
     gpio.gpioa.pupdr.pupdr5 = .pullup;
     gpio.gpioa.odr.odr5 = 0b1;
+
+    asm volatile (
+        \\svc #01
+    );
 
     while (true) {}
 }
@@ -36,4 +46,9 @@ fn clockConfig() void {
     rcc.cfgr.sw = .pll;
 
     rcc.ahb1enr.gpioaen = .enable;
+    rcc.ahb1enr.gpioben = .enable;
+    rcc.ahb1enr.gpiocen = .enable;
+    rcc.ahb1enr.gpioden = .enable;
+    rcc.ahb1enr.gpioeen = .enable;
+    rcc.ahb1enr.gpiohen = .enable;
 }
