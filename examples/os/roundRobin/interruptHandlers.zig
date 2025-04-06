@@ -17,3 +17,5 @@ export fn svcMain(sp: [*]u32) void {
     const svcNumber: u8 = (pc - 2)[0];
     _ = svcNumber;
 }
+
+pub fn SysTick_Handler() callconv(.c) void {}
