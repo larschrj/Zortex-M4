@@ -149,8 +149,8 @@ const systick_t = packed struct {
         _reserve1: u15,
 
         const enable_t = enum(u1) {
-            disabled = 0,
-            enabled = 1,
+            disable = 0,
+            enable = 1,
         };
 
         const tickInt_t = enum(u1) {

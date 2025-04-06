@@ -18,25 +18,44 @@ pub fn build(b: *std.Build) void {
     };
     const target = b.resolveTargetQuery(query);
 
+    // register maps and cortex-m4 functions
     const stm32f411re = b.addModule("stm32f411re", .{
         .root_source_file = b.path("./src/stm32f411re.zig"),
         .target = target,
         .optimize = mode,
     });
 
-    var root_module = b.createModule(.{
+    // blinky
+    var blinkyRootModule = b.createModule(.{
         .root_source_file = b.path("./examples/blinky/startup.zig"),
         .target = target,
         .optimize = mode,
     });
-    root_module.addImport("stm32f411re", stm32f411re);
-    var exe = b.addExecutable(.{
+    blinkyRootModule.addImport("stm32f411re", stm32f411re);
+    var blinkyExe = b.addExecutable(.{
         .name = "blinky.elf",
-        .root_module = root_module,
+        .root_module = blinkyRootModule,
     });
-    exe.entry = .{ .symbol_name = "Reset_Handler" };
-    exe.setLinkerScript(b.path("./src/stm32f411re_flash.ld"));
+    blinkyExe.entry = .{ .symbol_name = "Reset_Handler" };
+    blinkyExe.setLinkerScript(b.path("./src/stm32f411re_flash.ld"));
 
-    b.default_step.dependOn(&exe.step);
-    b.installArtifact(exe);
+    b.default_step.dependOn(&blinkyExe.step);
+    b.installArtifact(blinkyExe);
+
+    // roundRobin
+    var roundRobinRootModule = b.createModule(.{
+        .root_source_file = b.path("./examples/os/roundRobin/startup.zig"),
+        .target = target,
+        .optimize = mode,
+    });
+    roundRobinRootModule.addImport("stm32f411re", stm32f411re);
+    var roundRobinExe = b.addExecutable(.{
+        .name = "roundRobin.elf",
+        .root_module = roundRobinRootModule,
+    });
+    roundRobinExe.entry = .{ .symbol_name = "Reset_Handler" };
+    roundRobinExe.setLinkerScript(b.path("./src/stm32f411re_flash.ld"));
+
+    b.default_step.dependOn(&roundRobinExe.step);
+    b.installArtifact(roundRobinExe);
 }

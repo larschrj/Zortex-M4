@@ -4,10 +4,9 @@ const gpio = @import("stm32f411re").gpio;
 
 pub fn main() void {
     clockConfig();
+    sysTickConfig();
 
-    core_cm4.enableFpu();
     core_cm4.enableIrq();
-
     core_cm4.nvicSetPriority(.PendSV_IRQn, 15) catch unreachable;
 
     gpio.gpioa.moder.moder5 = .output;
@@ -42,9 +41,12 @@ fn clockConfig() void {
     rcc.cfgr.sw = .pll;
 
     rcc.ahb1enr.gpioaen = .enable;
-    rcc.ahb1enr.gpioben = .enable;
-    rcc.ahb1enr.gpiocen = .enable;
-    rcc.ahb1enr.gpioden = .enable;
-    rcc.ahb1enr.gpioeen = .enable;
-    rcc.ahb1enr.gpiohen = .enable;
+}
+
+fn sysTickConfig() void {
+    core_cm4.systick.ctrl.clkSource = .ahb;
+    core_cm4.systick.load = 47999;
+    core_cm4.systick.val = 47999;
+    core_cm4.systick.ctrl.tickInt = .exceptionReqEnable;
+    core_cm4.systick.ctrl.enable = .enable;
 }
