@@ -41,7 +41,7 @@ const BusFault_Handler = BusyDummy_Handler;
 const UsageFault_Handler = BusyDummy_Handler;
 const SVC_Handler = irq.SVC_Handler;
 const DebugMon_Handler = BusyDummy_Handler;
-const PendSV_Handler = BusyDummy_Handler;
+const PendSV_Handler = irq.PendSV_Handler;
 const SysTick_Handler = irq.SysTick_Handler;
 const WWDG_IRQHandler = BusyDummy_Handler;
 const PVD_IRQHandler = BusyDummy_Handler;
@@ -114,7 +114,7 @@ export var vector_table linksection(".isr_vector") = [_]?Isr{
     null,
     null,
     null,
-    @ptrCast(&SVC_Handler),
+    &SVC_Handler,
     &DebugMon_Handler,
     null,
     &PendSV_Handler,

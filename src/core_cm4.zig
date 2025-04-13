@@ -1,5 +1,6 @@
 const std = @import("std");
-const irq_t = @import("stm32f411re_irq.zig").irq_t;
+pub const irq_t = @import("stm32f411re_irq.zig").irq_t;
+pub const exceptionNumber_t = @import("stm32f411re_irq.zig").exceptionNumber_t;
 
 const apsr_t = packed struct {
     _reserved0: u16,
@@ -72,7 +73,7 @@ const nvic_t = extern struct {
 
 const scb_t = extern struct {
     cpuid: u32, // cpuid base register
-    icsr: u32, // interrupt control and state register
+    icsr: icsr_t, // interrupt control and state register
     vtor: u32, // vector table offset register
     aircr: aircr_t, // application interrupt and reset control register
     scr: u32, // system control register
@@ -92,6 +93,25 @@ const scb_t = extern struct {
     isar: [5]u32, // instruction set attributes register
     _reserved0: [5]u32,
     cpacr: cpacr_t, // coprocessor access control register
+
+    const icsr_t = packed struct(u32) {
+        vectActive: vectActive_t,
+        _reserved0: u2,
+        retobase: u1,
+        vectPending: vectPending_t,
+        _reserved1: u3,
+        isrPending: u1,
+        _reserved2: u2,
+        pendStClr: u1,
+        pendStSet: u1,
+        pendSvClr: u1,
+        pendSvSet: u1,
+        _reserved3: u2,
+        nmiPendSet: u1,
+
+        const vectActive_t = changeEnumTagType(exceptionNumber_t, u9);
+        const vectPending_t = changeEnumTagType(exceptionNumber_t, u7);
+    };
 
     const aircr_t = packed struct(u32) {
         vectreset: u1,
@@ -415,6 +435,13 @@ pub fn nvicDecodePriority(priorityEncoding: priorityField_t) priority_t {
     }
 
     return priority;
+}
+
+fn changeEnumTagType(comptime enumType: type, comptime newTagType: type) type {
+    const enumTypeInfo = @typeInfo(enumType);
+    var newEnumTypeInfo = enumTypeInfo;
+    newEnumTypeInfo.@"enum".tag_type = newTagType;
+    return @Type(newEnumTypeInfo);
 }
 
 // Check prigroup_t values

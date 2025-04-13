@@ -71,6 +71,22 @@ pub const irq_t = enum(i16) {
     SPI5_IRQn = 85, // SPI5 global Interrupt
 };
 
+// exception number enum
+pub const exceptionNumber_t = createExceptionNumberEnum(irq_t);
+
+// exception numbers = irq numbers + 16
+fn createExceptionNumberEnum(comptime irqEnum: type) type {
+    const fields = std.meta.fields(irqEnum);
+    var newFields: [fields.len + 1]std.builtin.Type.EnumField = undefined;
+    for (fields, 0..) |f, i| {
+        newFields[i] = .{ .name = f.name, .value = f.value + 16 };
+    }
+    newFields[newFields.len - 1] = .{ .name = "thread_mode", .value = 0 };
+
+    const enumInfo = std.builtin.Type.Enum{ .tag_type = u8, .fields = &newFields, .decls = &.{}, .is_exhaustive = false };
+    return @Type(.{ .@"enum" = enumInfo });
+}
+
 // Check IRQ numbers
 comptime {
     const irqTypeInfo = @typeInfo(irq_t).@"enum";
