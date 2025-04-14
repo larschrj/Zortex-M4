@@ -77,7 +77,7 @@ const scb_t = extern struct {
     vtor: u32, // vector table offset register
     aircr: aircr_t, // application interrupt and reset control register
     scr: scr_t, // system control register
-    ccr: u32, // configuration control register
+    ccr: ccr_t, // configuration control register
     shp: [12]u8, // system handlers priority registers (4-7, 8-11, 12-15)
     shcsr: u32, // system handler control and state register
     cfsr: u32, // configurable fault status register
@@ -198,6 +198,18 @@ const scb_t = extern struct {
             wakeOnEnabledInterrupts = 0,
             wakeOnAllInterrupts = 1,
         };
+    };
+
+    const ccr_t = packed struct(u32) {
+        nonBaseThrdEna: u1,
+        userSetMpend: u1,
+        _reserved0: u1,
+        unalign_trp: u1,
+        div_0_trp: u1,
+        _reserved1: u3,
+        bfHfNmIgn: u1,
+        stkAlign: u1,
+        _reserved2: u22,
     };
 
     const cpacr_t = packed struct(u32) {
