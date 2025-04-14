@@ -76,7 +76,7 @@ const scb_t = extern struct {
     icsr: icsr_t, // interrupt control and state register
     vtor: u32, // vector table offset register
     aircr: aircr_t, // application interrupt and reset control register
-    scr: u32, // system control register
+    scr: scr_t, // system control register
     ccr: u32, // configuration control register
     shp: [12]u8, // system handlers priority registers (4-7, 8-11, 12-15)
     shcsr: u32, // system handler control and state register
@@ -107,7 +107,7 @@ const scb_t = extern struct {
         pendSvClr: pendClr_t,
         pendSvSet: pendSet_t,
         _reserved3: u2,
-        nmiPendSet: u1,
+        nmiPendSet: pendSet_t,
 
         // create vectActive_t from exceptionNumber_t and add 0 value for thread_mode
         const vectActive_t = blk: {
@@ -154,14 +154,18 @@ const scb_t = extern struct {
     };
 
     const aircr_t = packed struct(u32) {
-        vectreset: u1,
-        vectclractive: u1,
-        sysresetreq: u1,
+        vectReset: u1,
+        vectClrActive: u1,
+        sysResetReq: sysResetReq_t,
         _reserved0: u5,
         prigroup: prigroup_t,
         _reserved1: u4,
         endianess: u1,
         vectkey: u16,
+
+        const sysResetReq_t = enum(u1) {
+            requestReset = 1,
+        };
 
         pub const prigroup_t = enum(u3) {
             groupPrioBitWidth4 = 0b011,
@@ -169,6 +173,30 @@ const scb_t = extern struct {
             groupPrioBitWidth2 = 0b101,
             groupPrioBitWidth1 = 0b110,
             groupPrioBitWidth0 = 0b111,
+        };
+    };
+
+    const scr_t = packed struct(u32) {
+        _reserved0: u1,
+        sleepOnExit: sleepOnExit_t,
+        sleepDeep: u1,
+        _reserved1: u1,
+        sevOnPend: u1,
+        _reserved: u27,
+
+        const sleepOnExit_t = enum(u1) {
+            noSleepOnIsrReturn = 0,
+            enterSleepOnIsrReturn = 1,
+        };
+
+        const sleepDeep_t = enum(u1) {
+            sleepOnSleep = 0,
+            deepSleepOnSleep = 1,
+        };
+
+        const sevOnPend_t = enum(u1) {
+            wakeOnEnabledInterrupts = 0,
+            wakeOnAllInterrupts = 1,
         };
     };
 
