@@ -121,7 +121,7 @@ const scb_t = extern struct {
             break :blk @Type(.{ .@"enum" = enumInfo });
         };
 
-        // create vectPending_t from exceptionNumber_t and add 0 value for thread_mode
+        // create vectPending_t from exceptionNumber_t and add 0 value for no pending interrupt
         const vectPending_t = blk: {
             const enumTypeInfo = @typeInfo(exceptionNumber_t).@"enum";
             var newFields: [enumTypeInfo.fields.len + 1]std.builtin.Type.EnumField = undefined;
