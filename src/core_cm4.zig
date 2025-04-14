@@ -98,7 +98,7 @@ const scb_t = extern struct {
         vectActive: vectActive_t,
         _reserved0: u2,
         retobase: u1,
-        vectPending: vectPending_t,
+        vectPending: u7,
         _reserved1: u3,
         isrPending: u1,
         _reserved2: u2,
@@ -109,8 +109,18 @@ const scb_t = extern struct {
         _reserved3: u2,
         nmiPendSet: u1,
 
-        const vectActive_t = changeEnumTagType(exceptionNumber_t, u9);
-        const vectPending_t = changeEnumTagType(exceptionNumber_t, u7);
+        // create vectActive_t from exceptionNumber_t and add 0 value for thread_mode
+        const vectActive_t = blk: {
+            const enumTypeInfo = @typeInfo(exceptionNumber_t).@"enum";
+            var newFields: [enumTypeInfo.fields.len + 1]std.builtin.Type.EnumField = undefined;
+            for (enumTypeInfo.fields, 0..) |f, i| {
+                newFields[i] = .{ .name = f.name, .value = f.value + 16 };
+            }
+            newFields[newFields.len - 1] = .{ .name = "thread_mode", .value = 0 };
+
+            const enumInfo = std.builtin.Type.Enum{ .tag_type = u9, .fields = &newFields, .decls = &.{}, .is_exhaustive = false };
+            break :blk @Type(.{ .@"enum" = enumInfo });
+        };
     };
 
     const aircr_t = packed struct(u32) {
@@ -437,7 +447,7 @@ pub fn nvicDecodePriority(priorityEncoding: priorityField_t) priority_t {
     return priority;
 }
 
-fn changeEnumTagType(comptime enumType: type, comptime newTagType: type) type {
+fn vectActiveType(comptime enumType: type, comptime newTagType: type) type {
     const enumTypeInfo = @typeInfo(enumType);
     var newEnumTypeInfo = enumTypeInfo;
     newEnumTypeInfo.@"enum".tag_type = newTagType;
