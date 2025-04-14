@@ -179,9 +179,9 @@ const scb_t = extern struct {
     const scr_t = packed struct(u32) {
         _reserved0: u1,
         sleepOnExit: sleepOnExit_t,
-        sleepDeep: u1,
+        sleepDeep: sleepDeep_t,
         _reserved1: u1,
-        sevOnPend: u1,
+        sevOnPend: sevOnPend_t,
         _reserved: u27,
 
         const sleepOnExit_t = enum(u1) {
