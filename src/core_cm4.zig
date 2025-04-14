@@ -98,7 +98,7 @@ const scb_t = extern struct {
         vectActive: vectActive_t,
         _reserved0: u2,
         retobase: u1,
-        vectPending: u7,
+        vectPending: vectPending_t,
         _reserved1: u3,
         isrPending: u1,
         _reserved2: u2,
@@ -117,8 +117,19 @@ const scb_t = extern struct {
                 newFields[i] = .{ .name = f.name, .value = f.value + 16 };
             }
             newFields[newFields.len - 1] = .{ .name = "thread_mode", .value = 0 };
-
             const enumInfo = std.builtin.Type.Enum{ .tag_type = u9, .fields = &newFields, .decls = &.{}, .is_exhaustive = false };
+            break :blk @Type(.{ .@"enum" = enumInfo });
+        };
+
+        // create vectPending_t from exceptionNumber_t and add 0 value for thread_mode
+        const vectPending_t = blk: {
+            const enumTypeInfo = @typeInfo(exceptionNumber_t).@"enum";
+            var newFields: [enumTypeInfo.fields.len + 1]std.builtin.Type.EnumField = undefined;
+            for (enumTypeInfo.fields, 0..) |f, i| {
+                newFields[i] = .{ .name = f.name, .value = f.value + 16 };
+            }
+            newFields[newFields.len - 1] = .{ .name = "no_pending", .value = 0 };
+            const enumInfo = std.builtin.Type.Enum{ .tag_type = u7, .fields = &newFields, .decls = &.{}, .is_exhaustive = false };
             break :blk @Type(.{ .@"enum" = enumInfo });
         };
     };
