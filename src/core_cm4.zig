@@ -97,15 +97,15 @@ const scb_t = extern struct {
     const icsr_t = packed struct(u32) {
         vectActive: vectActive_t,
         _reserved0: u2,
-        retobase: u1,
+        retToBase: retToBase_t,
         vectPending: vectPending_t,
         _reserved1: u3,
-        isrPending: u1,
+        isrPending: isrPending_t,
         _reserved2: u2,
-        pendStClr: u1,
-        pendStSet: u1,
-        pendSvClr: u1,
-        pendSvSet: u1,
+        pendStClr: pendClr_t,
+        pendStSet: pendSet_t,
+        pendSvClr: pendClr_t,
+        pendSvSet: pendSet_t,
         _reserved3: u2,
         nmiPendSet: u1,
 
@@ -121,6 +121,11 @@ const scb_t = extern struct {
             break :blk @Type(.{ .@"enum" = enumInfo });
         };
 
+        const retToBase_t = enum(u1) {
+            preemptedException = 0,
+            noPreemptedException = 1,
+        };
+
         // create vectPending_t from exceptionNumber_t and add 0 value for no pending interrupt
         const vectPending_t = blk: {
             const enumTypeInfo = @typeInfo(exceptionNumber_t).@"enum";
@@ -131,6 +136,20 @@ const scb_t = extern struct {
             newFields[newFields.len - 1] = .{ .name = "no_pending", .value = 0 };
             const enumInfo = std.builtin.Type.Enum{ .tag_type = u7, .fields = &newFields, .decls = &.{}, .is_exhaustive = false };
             break :blk @Type(.{ .@"enum" = enumInfo });
+        };
+
+        const isrPending_t = enum(u1) {
+            noPendingInterrupt = 0,
+            pendingInterrupt = 1,
+        };
+
+        const pendClr_t = enum(u1) {
+            clearPendingSysTick = 1,
+        };
+
+        const pendSet_t = enum(u1) {
+            noPendingInterrupt = 0,
+            pendingInterrupt = 1,
         };
     };
 
